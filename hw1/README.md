@@ -15,9 +15,9 @@ Hello, world!
 or
 
 ```
-java Hello John
+$ java Hello John
 Hello, John!
-java Hello John Tom
+$ java Hello John Tom
 Hello, John, and Tom!
 ```
 
@@ -26,5 +26,5 @@ Hello, John, and Tom!
 Just use `javac` to build:
 
 ```
-javac Hello.java
+$ javac Hello.java
 ```
