@@ -15,3 +15,13 @@ hs_err_pid*
 \#*\#
 
 .ignore
+
+
+## For LaTeX
+
+*.aux
+*.log
+*.out
+*.pdf
+*.synctex.gz
+*.toc
