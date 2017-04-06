@@ -1,0 +1,207 @@
+\documentclass{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+
+\title{Personal Information Manager System API Document}
+\author{李约瀚 \\ 14130140331 \\ qinka@live.com \\ qinka@qinka.pw}
+
+\usepackage{listings}
+\usepackage{hyperref}
+
+% For Haskell
+\lstnewenvironment{haskell}[1][]
+{\lstset{ frame=tblr
+        , breaklines           
+        , basicstyle=\small\ttfamily  
+        , flexiblecolumns=false  
+        , basewidth={0.5em,0.45em}   
+        , literate={+}{{$+$}}1 % plus  
+            {/}{{$/$}}1                  
+            {*}{{$*$}}1                  
+            {=}{{$=$}}1                  
+            {>}{{$>$}}1                  
+            {<}{{$<$}}1                  
+            {\\}{{$\lambda$}}1           
+            {\\\\}{{\char`\\\char`\\}}1  
+            {->}{{$\rightarrow$}}2       
+            {>=}{{$\geq$}}2              
+            {<-}{{$\leftarrow$}}2        
+            {<=}{{$\leq$}}2              
+            {=>}{{$\Rightarrow$}}2       
+            {\ .}{{$\circ$}}2            
+            {\ .\ }{{$\circ$}}2          
+            {>>}{{>>}}2                  
+            {>>=}{{>>=}}2                
+            {|}{{$\mid$}}1               
+            {/=}{{$\neq$}}1              
+        , numbers=left%
+        , #1%
+    }%
+    \csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+% For Java
+\lstnewenvironment{java}[1][]
+{\lstset{frame=tblr
+        , breaklines           
+        , basicstyle=\small\ttfamily  
+        , flexiblecolumns=false  
+        , basewidth={0.5em,0.45em} 
+        , literate={+}{{$+$}}1 % plus  
+                   {/}{{$/$}}1                  
+                   {*}{{$*$}}1                  
+                   {=}{{$=$}}1                  
+                   {>}{{$>$}}1                    
+                   {<}{{$<$}}1       
+                   {>=}{{$\geq$}}2        
+                   {<=}{{$\leq$}}2             
+        , numbers=left%
+        , #1
+        }
+    \csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+% For JSON
+\lstnewenvironment{json}[1][]
+{\lstset{ frame=tblr
+        , breaklines           
+        , basicstyle=\small\ttfamily  
+        , flexiblecolumns=false  
+        , basewidth={0.5em,0.45em}             
+        , numbers=left%
+        , #1%
+        }
+    \csname lst@SetFirstLabel\endcsname}
+{\csname lst@SaveFirstLabel\endcsname}
+
+
+\begin{document}
+    \maketitle
+    \newpage
+    \tableofcontents
+    \newpage
+    
+    % % Main
+    \section{Application Text Data Interface}
+    This section includes the application text data interfaces' definition.
+    At the same time, this section will include the representation application datas' typeclass/interface.
+    
+    For the common texture data interface, JSON will be used when datas are needed to be represent to text.
+    
+    \subsection{[Typeclass/Interface] Dateable}
+    If the tuple $(D,O)$ is dateable, the operator $O$, which also should be a function, 
+    map on the collection $D$, and that should get the dates of $D$.
+    
+    For Haskell:
+    \begin{haskell}
+ class Dateable a where
+   getDate :: a -> Date
+    \end{haskell}
+    and, for Java:
+    \begin{java}
+  interface IDateable
+  {
+      public abstract Date getDate();
+  }
+    \end{java}
+    
+    \subsection{[Typecalss/Interface] Itemable}
+    If the tuple $(D,P_{set},P_{get},C_{set},C_{get})$ is itemable, the operators $P$, a function, map on the collection $D$,
+    and that should get the priorities of $D$ or set the priorities of $D$, as well as, the operators $C$,
+    a function too, map on the collection $D$, and that should get the contexts of $D$ or set the contexts of $D$.
+    
+    For Haskell:
+    \begin{haskell}
+ class Itemable a where
+   getPriority :: a -> Priority
+   setPriority :: a -> Priority -> a
+   getContext  :: a -> Context
+   setContext  :: a -> Context  -> a
+    \end{haskell}
+    and, for Java:
+    \begin{java}
+  interface IItemable
+  {
+      public abstract Priority getPriority();
+      public abstract void     setPriority(Priority);
+      public abstract Context  getContext();
+      public abstract void     setContext(Context);
+  }
+    \end{java}
+    
+    \subsection{[Data] Todo}
+    The \lstinline|Todo| or \lstinline|PIMTodo| is a data structure, or say class, which hold the todo within context,
+    and this should be the instance of both Dateable and Itemable.
+    
+    For the common text interface, the followings are necessary field: 
+    \begin{json}
+ {
+     "type":"todo",
+     "date":"{DATE}",
+     "context:"{STRING}"
+ }
+    \end{json} 
+    
+    \subsection{[Data] Note}
+    The \lstinline|Note| or \lstinline|PIMNote| is a data structure, or say class, which hold the note within context,
+    and this should be the instance of Itemable.
+    
+    For the common text interface, the followings are necessary field: 
+    \begin{json}
+ {
+     "type":"note",
+     "context":"{STRING}",
+ }
+    \end{json}
+    
+    \subsection{[Data] Appointment}
+    The \lstinline|Appointment| or \lstinline|PIMAppointment| is a data structure, or say class,
+    which hold the appointment informations within the context, and this should be instance of both Datebale and Itemable.
+    
+    For the common text interface, the followings are necessary field: 
+    \begin{json}
+ {
+     "type":"appointment",
+     "date":"{DATE}",
+     "context":"{STRING}"
+ }
+    \end{json}
+    
+    \subsection{[Data] Contact}
+    The \lstinline|Contact| or \lstinline|PIMContact| is a data structure, or say class, which hold the first name, last name,
+    and email, and this should be the instance of Itemable.
+    
+    For the common text interface, the followings are necessary field: 
+    \begin{json}
+ {
+     "type":"contact",
+     "first-name":"{STRING}",
+     "last-name":"{STRING}",
+     "email":"{STRING}"
+ }
+    \end{json}
+    
+    
+    \subsection{[Enum] Priority}
+    The priority should have five level: \verb|right now|, \verb|urgent|, \verb|normal|, \verb|soon|, and \verb|never|.
+    
+    \section{Application Connection Interface}
+    This section is about the standard actions for the client, which try to manage the information itself or the data itself.
+    
+    \subsection{Manager}
+    The \lstinline|Manager| or \lstinline|PIMManager| should a data structure, or say class, which should have the following functions.
+    
+    If a tuple $(list,create,save,load,D)$(or say a subtuple), whose elements are the operators and a collection of items($D$), can meet the conditions:
+    \begin{itemize}
+        \item For $list$, the operator $list$ can show or display the list of the elements(items) in the collection($D$).
+        \item For $create$, the operator $create$ can create or add an new element(item) to the collection($D$), and get a new collection.
+        \item For $save$, the operator $save$ can use \verb|remote collection| to save the datas to wherever 
+        \verb|remote collection| store them.
+        \item For $load$, the operator $load$ can use \verb|remote collection| to load the datas from wherever
+        \verb|remote collection| store them.
+    \end{itemize}
+    We can just call that tuple a $manager$. 
+    
+    If a \textit{super-manage} $(list,create,save,load,quit,D)$ has the operator $quit$ which can quit the current state machine,
+    we can say this \textit{super-manage} is regarded as \textbf{\textit{Standard Manage Form}}. 
+    
+\end{document}
