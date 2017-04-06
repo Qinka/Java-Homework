@@ -188,7 +188,7 @@
     This section is about the standard actions for the client, which try to manage the information itself or the data itself.
     
     \subsection{Manager}
-    The \lstinline|Manager| or \lstinline|PIMManager| should a data structure, or say class, which should have the following functions.
+    The \lstinline|Manager| or \lstinline|PIMManager| should be a data structure, or say class, which should have the following functions.
     
     If a tuple $(list,create,save,load,D)$(or say a subtuple), whose elements are the operators and a collection of items($D$), can meet the conditions:
     \begin{itemize}
@@ -199,9 +199,105 @@
         \item For $load$, the operator $load$ can use \verb|remote collection| to load the datas from wherever
         \verb|remote collection| store them.
     \end{itemize}
-    We can just call that tuple a $manager$. 
+    We can just call that such tuple $manager$. 
     
     If a \textit{super-manage} $(list,create,save,load,quit,D)$ has the operator $quit$ which can quit the current state machine,
     we can say this \textit{super-manage} is regarded as \textbf{\textit{Standard Manage Form}}. 
-    
+
+   \subsection{Connector}
+   The \lstinline|Connector|, \lstinline|PIMCollection|, or \lstinline|RemotePIMCollection| should be a data structure, or say a class,
+   which should have match the followings description.
+
+   If a tuple $(D,notes_{get},todos_{get},appointments_{get},contacts_{get})$(or say a subtuple), whose elements are a collection($D$) and the operators,
+   can meet these conditions:
+   \begin{itemize}
+       \item For $notes_{get}$, this operator can filter the non-note items out, and get a new collection of notes.
+       \item For $todos_{get}$, this operator can filter the non-todo items out, and get a new collection of todos.
+       \item For $appointments_{get}$, this operator can filter the non-appointment items out, and get a new collection of appointments.
+       \item For $contacts_{get}$, this operator can filter the non-contact items out, and get a new collection of appointments.
+   \end{itemize}
+   We can just call that such tuple $connector$, and if the subtuple of $t$ can be can a $connector$, we can just say that tuple
+   is under the \textbf{\textit{Basic Connector Form(BCF for short)}}.
+
+  If a tuple $t$ in \verb|BCF|, has an operator, named $viaData$ for example, which can filter by date and get a new collection,
+  such a tuple is under the \textbf{\textit{Normal Connector Form(NCF for short)}}.
+
+  If a tuple $t$ in \verb|BCF|, has an operator, named $all$ for example, which can just return the collection($D$) itself,
+  such a tuple is under the \textbf{\textit{Self Connector Form(SCF for short)}}.
+
+  If a tuple $t$ is under the \verb|NCF| and \verb|SCF| and has a operator, named $add$ for example, which can add a new item to the collection($D$),
+  such a tuple is under the \textbf{\textit{Full Connector Form(FCF for short)}}.
+
+  If a tuple $t$ is under the \verb|BCF|, \verb|NCF|, \verb|SCF|, or \verb|FCF|, and this tuple's filter operators can filter by owner when necessary,
+  such a tuple is under a form with ownership.
+
+  And the \lstinline|PIMCollection| and \lstinline|RemotePIMCollection| should be under \verb|FCF| with ownership.
+
+
+  \section{Application Public Interface}
+
+  \subsection{POST /add}
+
+  \verb|POST /add| is the API to upload or change the item.
+
+  \verb|type| is the param which point out the update item's kind.
+
+  \verb|id|, optional, mark up the id of the item, and this means change, not the addition.
+
+  \verb|date|, when needed, this param points out the date of the item.
+
+  \verb|context|, when needed, this param points out the context of the item. \textit{NOTE: For contact, you should not use this.}
+
+  \verb|priority| is the param point out priority of the item.
+
+  \verb|email|, for contact only, this param point out the e-mail address of the item.
+
+  \verb|last-name|, for contact only, this param point out the last name of the item.
+
+  \verb|first-name|, for contact only, this param point out the first name of the item.
+
+  \subsection{GET /list/todo}
+
+  \verb|GET /list/todo| is the API to fetch the list and items of the todos' collection.
+
+  \verb|begin| and \verb|end| are the params which limit the date of the collection of the request's result.
+
+  \verb|own| is the param which limit the ownweship.
+
+
+  \subsection{GET /list/note}
+
+  \verb|GET /list/note| is the API to fetch the list and items of the notes' collection.
+
+  \verb|begin| and \verb|end| are the params which limit the date of the collection of the request's result.
+
+  \verb|own| is the param which limit the ownweship.
+
+  \subsection{GET /list/appointment}
+
+  \verb|GET /list/appointment| is the API to fetch the list and items of the appointments' collection.
+
+  \verb|begin| and \verb|end| are the params which limit the date of the collection of the request's result.
+
+  \verb|own| is the param which limit the ownweship.
+
+  \subsection{GET /list/contact}
+
+  \verb|GET /list/contact| is the API to fetch the list and items of the contacts' collection.
+
+  \verb|begin| and \verb|end| are the params which limit the date of the collection of the request's result.
+
+  \verb|own| is the param which limit the ownweship.  
+
+  \subsection{Return}
+
+  The return include a status code, and the list of items:
+  
+  \begin{json}
+ {
+   "status" : 0,
+   "context" : [ { "type":"note","context":"abc"}]
+ }
+  \end{json}
+  
 \end{document}
