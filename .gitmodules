@@ -1,0 +1,3 @@
+[submodule "pim-be"]
+	path = pim-be
+	url = git@github.com:Qinka/pim-be.git
