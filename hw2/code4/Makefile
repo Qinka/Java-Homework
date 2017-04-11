@@ -5,6 +5,8 @@ all:    IPIMDateable.class \
 	PIMContact.class \
 	PIMDateable.class \
 	PIMEntity.class \
+	PIMEntityIC.class \
+	PIMIOCollection.class \
 	PIMManager.class \
 	PIMNote.class \
 	PIMTodo.class
@@ -16,6 +18,6 @@ clean:
 	rm -rf *.class
 
 run:
-	echo "java -cp .:gson-2.8.0.jar" $(ARGS)
+	@echo "java -cp .:gson-2.8.0.jar" $(ARGS)
 test: Main.class
 	java -cp .:gson-2.8.0.jar Main

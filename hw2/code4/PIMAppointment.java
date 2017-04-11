@@ -14,6 +14,10 @@ import com.google.gson.annotations.*;
 
 public class PIMAppointment extends PIMDateable
 {
+    public final String __getType()
+    {return "appointment";}
+
+    
     // for context
     @SerializedName("context")
     protected String _context;

@@ -15,6 +15,10 @@ import com.google.gson.annotations.*;
 
 public class PIMTodo extends PIMDateable
 {
+
+    public final String __getType()
+    {return "todo";}
+    
     // for context
     @SerializedName("context")
     protected String _context;

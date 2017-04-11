@@ -30,7 +30,7 @@ public class PIMDateable extends PIMEntity implements IPIMDateable
 	SimpleDateFormat sdf = new SimpleDateFormat(_f);
 	return sdf.format(_date);
     }
-    public void setDate(String _f,String _t)
+    public void setDate(String _f,String _t) throws ParseException
     {
 	SimpleDateFormat sdf = new SimpleDateFormat(_f);
 	_date = sdf.parse(_t);
@@ -77,10 +77,8 @@ public class PIMDateable extends PIMEntity implements IPIMDateable
 	gb.registerTypeAdapter(Date.class, new DateSerializer());
 	return gb.create().toJson(this);
     }
-
     
-    
-    class DateSerializer implements JsonSerializer<Date>
+    public  class DateSerializer implements JsonSerializer<Date>
     {
 	public JsonElement serialize(Date src,Type typeOfSrc, JsonSerializationContext context)
 	{
@@ -88,7 +86,7 @@ public class PIMDateable extends PIMEntity implements IPIMDateable
 	    return new JsonPrimitive(sdf.format(src));
 	}
     }
-    class DateDeserializer implements JsonDeserializer<Date>
+    public  class DateDeserializer implements JsonDeserializer<Date>
     {
 	public Date deserialize(JsonElement json, Type typeOfT,JsonDeserializationContext context) throws JsonParseException
 	{

@@ -16,6 +16,9 @@ import com.google.gson.annotations.*;
 
 public class PIMNote extends PIMEntity
 {
+    public final String __getType()
+    {return "note";}
+    
     // for context
     @SerializedName("context")
     protected String _context;

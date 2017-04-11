@@ -8,12 +8,19 @@
  */
 
 import java.lang.*;
+import java.lang.reflect.*;
 import com.google.gson.*;
 import com.google.gson.annotations.*;
 
 
 public abstract class PIMEntity
 {
+
+    public String __getType()
+    {return "entity";}
+    
+    @SerializedName("type")
+    public final String __t = this.__getType(); 
 
     public PIMEntity(String _o)
     {

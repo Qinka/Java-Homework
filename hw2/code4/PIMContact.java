@@ -14,6 +14,10 @@ import com.google.gson.annotations.*;
 
 public class PIMContact extends PIMEntity
 {
+    public final String __getType()
+    {return "contact";}
+
+    
     @SerializedName("email")
     protected String _email;
     public String getEmail()

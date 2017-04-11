@@ -18,94 +18,191 @@ import java.io.*;
 public class PIMManager
 {
 
+    // for main
+    public static void main(String [] args)
+    {
+	PIMBaseCollection bc = new PIMIOCollection(".ignore/data");
+	PIMManager m = new PIMManager(bc);
+	m._opts.add(m.__quit);
+	m._opts.add(m.__save);
+	m._opts.add(m.__load);
+	m._opts.add(m.__list);
+	m._opts.add(m.__create);
+	m.interaction();
+    }
+
+    
+    
 
     // for quit
-    public static Opt __quit =
-	new Opt("quit",null,(_m -> throw new WExitException();));
+    public final Opt __quit =
+	new Opt("quit",null,
+		_m ->
+		{
+		    System.out.println("Bye bye!");
+		    throw new WExitException();
+		});
     // for save
-    public static Opt __save =
+
+    public final Opt __save =
 	new Opt("save","using save to save or push datas to remote or files",
 		_m ->
 		{
-		    if (_m instanceof PIMCollectionStored)
+		    if (_m._collection instanceof PIMCollectionStored)
 			{
-			    ((PIMCollectionStored)_collection).push();
+			    PIMBaseCollection _c = _m._collection;
+			    ((PIMCollectionStored)_c).push();
 			}
 		    else
 			{
 			    System.err.println("WARRNING: Sorry the collection of PIMBasecollection is not an instance of PIMCollectionstored, and that means it is save will not do anything.");
 			}
+		    return true;
 		});
     // for load
-    public static Opt __load =
-	new Opt("save","using save to save or push datas to remote or files",
+    public final Opt __load = 
+	new Opt("load","using load to load or pull datas from remote or files",
 		_m ->
 		{
-		    if (_m instanceof PIMCollectionStored)
+		    if (_m._collection instanceof PIMCollectionStored)
 			{
-			    ((PIMCollectionStored)_collection).push();
+			    PIMBaseCollection _c = _m._collection;
+			    ((PIMCollectionStored)_c).pull();
 			}
 		    else
 			{
 			    System.err.println("WARRNING: Sorry the collection of PIMBasecollection is not an instance of PIMCollectionstored, and that means it is save will not do anything.");
 			}
+		    return true;
 		});
 	
     // for list
-    public static Opt __list =
+    public final Opt __list =
 	new Opt("list","list all the items in the repo",
-		_m ->
+		_m -> 
 		{
 		    int size =  _m._collection.size();
-		    System.out.println("There " + size>1?"are ":"is " + size + " item" + size>1?"s":"");
+		    System.out.println("There " + (size>1?"are ":"is ") + size + " item" + (size>1?"s":""));
 		    int itemid = 0;
-		    Function<PIMEntity,void> printItem = _p ->
+		    BiFunction<PIMEntity,Integer,Boolean> printItem = (_p,_i) ->
 		    {
 			if(_p.getClass().equals(PIMAppointment.class))
 			    {
 				PIMAppointment a = (PIMAppointment)_p;
-				System.out.println("Item "+itemid+": APPOINTMENT "+a.getPriority()+" "+ a.getDate());
-				System.out.println("\t "+a.getContext());
+				System.out.println("Item "+_i+": APPOINTMENT "+a.getPriority()+" "+ a.getDate("yyyy-MM-dd"));
+				System.out.println("\t "+a.getDescription());
 			    }
 			else if(_p.getClass().equals(PIMContact.class))
 			    {
 				PIMContact a = (PIMContact) _p;				
-				System.out.println("Item "+itemid+": CONTACT "+a.getPriority());
+				System.out.println("Item "+_i+": CONTACT "+a.getPriority());
 				System.out.println("\t Name: "+a.getFirstName()+" "+a.getLastName());
 				System.out.println("\t EMail: "+a.getEmail());
 			    }
 			else if(_p.getClass().equals(PIMNote.class))
 			    {
 				PIMNote a = (PIMNote) _p;
-				System.out.println("Item "+itemid+": NOTE "+a.getPriority());
+				System.out.println("Item "+_i+": NOTE "+a.getPriority());
 				System.out.println("\t " + a.getContext());
 			    }
 			else if(_p.getClass().equals(PIMTodo.class))
 			    {
 				PIMTodo a = (PIMTodo) _p;
-				System.out.println("Item "+itemid+": TODO "+a.getPriority()+" "+ a.getDate());
+				System.out.println("Item "+_i+": TODO "+a.getPriority()+" "+ a.getDate("yyyy-MM-dd"));
 				System.out.println("\t" + a.getContext());
 			    }
 			else
 			    {
 				System.err.println("WARRNING: This can not happen.");
 			    }
-		    }
-		    
-		}
+			return true;
+		    };
+		    for(PIMEntity item:_m._collection)
+			{
+			    itemid ++;
+			    printItem.apply(item,itemid);
+			}
+		    return true;
+		});
 		
-	// For add
-	public static Opt __add =
-	new Opt("add","add the item with the introductions",
-		_m ->
+    // For add
+    public final Opt __create =
+	new Opt("create","add the item with the introductions",
+		_m -> 
 		{
-			
-		}
-	)
-		
+		    try
+			{
+			    BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+			    System.out.println("Enter an item type (todo, note, contact or appointment)");
+			    String type = bf.readLine();
+			    PIMEntity item;
+			    if (type.equals("todo"))
+				item = new PIMTodo(null,null,null);
+			    else if(type.equals("note"))
+				item = new PIMNote(null,null,null);
+			    else if(type.equals("appointment"))
+				item = new PIMAppointment(null,null,null);
+			    else if(type.equals("contact"))
+				item = new PIMContact(null,null,null,null,null);
+			    else
+				{
+				    System.err.println("Error TYPE!");
+				    return false;
+				}
+			    if(item instanceof IPIMDateable)
+				{
+				    System.out.println("Enter date for item(yyyy-MM-dd):");
+				    ((IPIMDateable)(item)).setDate("yyyy-MM-dd",bf.readLine());
+				}
+			    System.out.println("Enter priority for item:");
+			    item.setPriority(bf.readLine());
+			    if(item.getClass().equals(PIMNote.class))
+				{
+				    System.out.println("Enter the note for item:");
+				    ((PIMNote)item).setContext(bf.readLine());
+				}
+			    else if(item.getClass().equals(PIMTodo.class))
+				{
+				    System.out.println("Enter the things to do for item:");
+				    ((PIMTodo)item).setContext(bf.readLine());
+				}
+			    else if(item.getClass().equals(PIMAppointment.class))
+				{
+				    System.out.println("Enter the your appointment for the item:");
+				    ((PIMAppointment)item).setDescription(bf.readLine());
+				}
+			    else if(item.getClass().equals(PIMContact.class))
+				{
+				    System.out.println("Enter the fisrt name for item:");
+				    ((PIMContact)item).setFirstName(bf.readLine());
+				    System.out.println("Enter the last name for item:");
+				    ((PIMContact)item).setLastName(bf.readLine());
+				    System.out.println("Enter the email for item:");
+				    ((PIMContact)item).setEmail(bf.readLine());
+				}
+			    System.out.println("Enter your name:");
+			    item.setOwner(bf.readLine());
+		    
+			    _m._collection.add(item);
+			}
+		    catch(Exception e)
+			{
+			    e.printStackTrace();
+			    return false;
+			}
+		    return true;
+		});
+    
+    
+
+    public PIMManager(PIMBaseCollection _bc)
+    {
+	_collection = _bc;
+	_opts = new ArrayList();
+    }
   
 
-
+	
 	
 
 
@@ -133,37 +230,46 @@ public class PIMManager
 	    {
 		System.exit(0);
 	    }
-    }
-
-    public void runInteraction() throw WExitException
-    {
-	printCmds();
-	string cmd = readCommand();
-	if(!runCmd(cmd))
+	catch(IOException e)
 	    {
-		System.err.println(opt._help);
+		e.printStackTrace();
 	    }
     }
 
-    public boolean runCmd(String _c)
-    {	
-	return runCmd(_opts.get(lastIndexOf(new Opt(_c,null,null))));
+    public void runInteraction() throws WExitException, IOException
+    {
+	if(printCmds())
+	    throw new WExitException();
+	runCmd(readCommand());
     }
 
-    public boolean runCmd(Opt _o)
+    public void runCmd(String _c) throws WExitException, IOException
     {
-	return _o._func(this);
+	int i = _opts.lastIndexOf(new Opt(_c,null,null));
+	if (i == -1)
+	    {
+		System.out.println("Error command");
+		return;
+	    }
+	Opt opt = _opts.get(i);
+	if(! runCmd(opt))
+	    System.err.println(opt._help);
+    }
+
+    public boolean runCmd(Opt _o) throws WExitException, IOException
+    {
+	return _o._func.apply(this);
     }
 
 			    
 
-    public static string readCommand()
+    public static String readCommand()
     {
-	BufferReader br = new BufferReader(new InputStreamReader(System.in));
+	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	String str = null;
 	try
 	    {
-		str = bl.readLine();
+		str = br.readLine();
 	    }
 	catch(IOException e)
 	    {
@@ -172,15 +278,15 @@ public class PIMManager
 	return str;
     }
 
-    public void printCmds()
+    public boolean printCmds()
     {
 	String be;
-	if (_opts.length <= 1)
+	if (_opts.size() <= 1)
 	    be = "is";
 	else
 	    be = "are";
 	System.out.print("--- Enter a command (supported commands " + be);
-	if (_opts.length == 0)
+	if (_opts.size() == 0)
 	    System.out.print(" nothing");
 	else
 	    for (Opt item:_opts)
@@ -188,27 +294,37 @@ public class PIMManager
 		    System.out.print(" "+item._cmd);
 		}
 	System.out.println(") ---");
+	return _opts.size() == 0;
     }
     
     public class Opt
     {
 	private String _cmd;
 	private String _help;
-	private Function<PIMManager,boolean> _func;
-	public Opt(String _c,String _h,Function<PIMManager,boolean> _g)
+	private OptFunction<PIMManager,Boolean> _func;
+	public Opt(String _c,String _h,OptFunction<PIMManager,Boolean> _f)
 	{
 	    _cmd = _c;
 	    _help = _h;
 	    _func = _f;
 	}
-	@Overloaded
-	public boolean equals(Opt _o)
+	public boolean equals(Object _o)
 	{
-	    return _cmd.equals(_o._cmd);
+	    return _cmd.equals(((Opt)_o)._cmd);
 	}
     }
 
-    private WExitException extends Exception
+    @FunctionalInterface
+    public interface OptFunction<T,R>
     {
+	R apply(T t) throws WExitException, IOException;
+    }
+    
+    private class WExitException extends Exception
+    {
+	public WExitException()
+	    {
+		super();
+	    }
     }
 }

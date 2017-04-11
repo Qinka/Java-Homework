@@ -11,7 +11,7 @@
 import java.lang.*;
 import java.util.*;
 
-public interface PIMBaseCollection
+public interface PIMBaseCollection extends Collection<PIMEntity>
 {
     public PIMBaseCollection getNotes();
     public PIMBaseCollection getNotes(String owner);
