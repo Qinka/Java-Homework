@@ -88,15 +88,25 @@ public class PIMManager
 			    }
 			else
 			    {
-				System.err.println("WARRNING: ??");
+				System.err.println("WARRNING: This can not happen.");
 			    }
 		    }
 		    
 		}
+		
+	// For add
+	public static Opt __add =
+	new Opt("add","add the item with the introductions",
+		_m ->
+		{
+			
+		}
+	)
+		
   
 
 
-
+	
 
 
     
