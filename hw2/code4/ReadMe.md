@@ -16,7 +16,7 @@ When you need to build, just run `make` , and the class fils will be generated.
 
 # Usage
 
-To using these cli-app, run `make
+To using these cli-app, run `make 
 
 
 # Also See
