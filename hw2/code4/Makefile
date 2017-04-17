@@ -20,10 +20,16 @@ clean:
 	rm -rf *.class
 
 run: gson-2.8.0.jar
-	@echo "java -cp '.$(PATH_SPILT)gson-2.8.0.jar'" $(ARGS)
+	java -cp '.$(PATH_SPILT)gson-2.8.0.jar' $(ARGS)
 test: Main.class gson-2.8.0.jar
 	java -cp .$(PATH_SPILT)gson-2.8.0.jar Main
 
 
 gson-2.8.0.jar:
 	@wget http://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar
+
+
+fix-1:
+	mkdir -p .ignore
+	touch .ignore/data
+	echo [] > .ignore/data
