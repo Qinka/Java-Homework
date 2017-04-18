@@ -41,3 +41,7 @@ The normal backend for this cli-app is [github:Qinka/pim-be](https://github.com/
 ## More
 
 For the more informations, you need look up or through the report for this homework and the document in pim-be, which is about the api and interfaces.
+
+## Feedback
+
+Bug tracker: [github.com/Qinka/Java-Homework/issues](https://github.com/Qinka/Java-Homework/issues).
