@@ -1,0 +1,118 @@
+\documentclass{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+
+\usepackage{listings}
+\lstset{breaklines;numbers=left}
+
+\title{Java Homework Report II}
+\author{李约瀚 \\ 14130140331 \\ Qinka \\ qinka@live.com \\ me@qinka.pro \\ qinka@qinka.pw (remove soon)}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+{\Huge \textbf{Copyleft (C) 2017}}
+\par
+{\Huge \textbf{GPL 3}}
+\newpage
+
+\tableofcontent
+\newpage
+
+\section{Persional Information System}
+\label{sec:pim}
+
+\subsection{Task}
+\label{sec:pim:task}
+
+This assignment involves the creation of simple Personal Information Management system that can deal with 4 kinds of items:
+todo items, notes, appointments and contacts. Each of these kinds of items is described in more detail below.
+The assignment requires that you create a class for each item type, and that each class extends an abstract base class provided for you.
+In addition to creating the four classes, you need to create a manager class that supports some simple text-based commands
+for creating and managing items.
+
+\paragraph{PIMTodo}
+
+Todo items must be PIMEntites defined in a class named PIMTodo. Each todo item must have a priority (a string),
+a date and a string that contains the actual text of the todo item.
+
+\paragraph{PIMNote}
+
+Note items must be PIMEntites defined in a class named PIMNote. Each note item must have a priority (a string),
+and a string that contains the actual text of the note.
+
+\paragraph{PIMAppointment}
+
+Appointment items must be PIMEntites defined in a class named PIMAppointment. Each appointment must have a priority (a string),
+a date and a description (a string).
+
+\paragraph{PIMContact}
+
+Contact items must be PIMEntites defined in a class named PIMContact. Each contact item must have a priority (a string), and strings for each of the following: first name, last name, email address.
+
+There is one additional requirement on the implementation of the 4 item classes listed above, the 2 classes that involve a date must share an interface that you define. You must formally create this interface and have both PIMAppointment and PIMTodo implement this interface.
+
+\paragraph{PIMManager}
+
+You must also create a class named PIMManager that includes a main and provides some way of creating and managing items (from the terminal). You must support the following commands (functionality):
+
+\begin{itemize}
+\item \textbf{List}: \textit{print a list of all PIM items}
+\item \textbf{Create}: \textit{add a new item}
+\item \textbf{Save}: \textit{save the entire list of items}
+\item \textbf{Load}: \textit{read a list of items from a file}
+\end{itemize}
+
+When creating a new item it is expected that the user must response to a sequence of prompts to enter the appropriate information
+(and even to indicate what kind of item is being created). Do this any way you want, just make sure that your system provides enough
+information (instructions) so that we can use your systems!
+
+\subsection{Design}
+\label{sec:pim:design}
+
+
+
+
+
+
+\section{Substring}
+\label{sec:sub}
+
+\subsection{Task}
+\label{sec:sub:task}
+
+Create a class named Substring that will expect the first command line argument to be a string,
+and the second two command line arguments to be integers, the first will be used as an index and the second as a length.
+The output should be the subtring of string starting at the index and of the specified length.
+
+
+
+
+
+
+
+\section{Calendar}
+\label{sec:cal}
+
+\subsection{Task}
+\label{sec:cal:task}
+
+Write a java program named cal (the main() should be in a class named "cal") that will print out to standard output the calendar for any month.
+Your program should look at the command line arguments for a numeric month and year,
+and print the calendar for that month in the format displayed below. If there are no command line arguments,
+or if the command line arguments are not a valid month and year, your program must print the calendar for the current month.
+This program is a java version of the Unix "cal" command.
+
+
+
+
+
+
+
+
+\end{document}
+
