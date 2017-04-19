@@ -4,7 +4,7 @@
 \setCJKmainfont{SimSun}
 
 \usepackage{listings}
-\lstset{breaklines;numbers=left}
+\lstset{breaklines,numbers=left}
 
 \title{Java Homework Report II}
 \author{李约瀚 \\ 14130140331 \\ Qinka \\ qinka@live.com \\ me@qinka.pro \\ qinka@qinka.pw (remove soon)}
@@ -20,7 +20,7 @@
 {\Huge \textbf{GPL 3}}
 \newpage
 
-\tableofcontent
+\tableofcontents
 \newpage
 
 \section{Persional Information System}
@@ -74,6 +74,29 @@ information (instructions) so that we can use your systems!
 \subsection{Design}
 \label{sec:pim:design}
 
+Firstly, I need a class from which each kind of the item of the PIM will inherit, and that class is called
+\lstinline|PIMEntity|.
+
+For such a class, there are the method to get item type for reflect, the priority, and the owner.
+\lstinline|PIMEntity| is an abstract class, although all methods are instanced.
+
+There are also two important methods which are about serialization and deserialization with gson in JSON.
+
+And for each kind of the item, the remainder things to add are just the information that the item will be with.
+
+For the note, to-do list, and appointment the important thing is the context of the item where will hold the note, things to be done, or the appointments. The contact item will hold the information of your friends or somebody also.
+
+The to-do list and appointment also inherit from the interface
+\lstinline|IPIMDateable| and this interface is about whether a class has a headline.
+ 
+
+Then the hold system need a class, named \lstinline|PIMCollection|,
+is an instance of the \lstinline|Collection| where the items will be hold in. When we need to store the items to file, remote repo, database, or something also, we need an interface in which there are two method named \lstinline|push| and \lstinline|pull|. The method \lstinline|push| and \lstinline|pull| will be the operation to send to or fetch from the items with the place where the items stored.
+
+Finally, we define a class to operate with IO and files, and a class to manage the system.
+
+In the class \lstinline|PIMManage| where manage the system, we define a sub-class, named \lstinline|Opt|. This class define the opt
+of the manager such as \verb|create| and \verb|save|.
 
 
 
@@ -90,9 +113,17 @@ and the second two command line arguments to be integers, the first will be used
 The output should be the subtring of string starting at the index and of the specified length.
 
 
+\subsection{Design}
+\label{sec:sub:design}
 
+The design is simply simple. The things need to do include:
 
-
+\begin{enumerate}
+    \item Get the string from the command line parameters.
+    \item Get the index of the substring's begin and end.
+    \item Using the api of the \lstinline[language=Java]|String|
+        to get the substring.
+   \end{enumerate} 
 
 
 \section{Calendar}
@@ -107,7 +138,7 @@ and print the calendar for that month in the format displayed below. If there ar
 or if the command line arguments are not a valid month and year, your program must print the calendar for the current month.
 This program is a java version of the Unix "cal" command.
 
-
+\subsection{Design}
 
 
 
