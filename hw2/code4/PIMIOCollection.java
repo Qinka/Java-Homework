@@ -1,6 +1,6 @@
 /**
  *
- * PIM
+ * PIMIOCollection
  * @author Qinka qinka@live.com qinka@qinka.pw 李约瀚 14130140331
  * @license GPL3
  * @version 0.1.0.0
