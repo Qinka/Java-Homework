@@ -12,6 +12,9 @@
 import java.lang.*;
 import java.util.*;
 import java.util.function.*;
+
+import javax.net.ssl.ExtendedSSLSession;
+
 import java.io.*;
 
 
@@ -21,7 +24,43 @@ public class PIMManager
     // for main
     public static void main(String [] args)
     {
-	PIMBaseCollection bc = new PIMIOCollection(".ignore/data");
+		String collectionName;
+		try
+		{
+			collectionName = args[0];
+		}
+		catch(Exception e)
+		{
+			collectionName = "io";
+		}
+		PIMBaseCollection bc;
+		if(collectionName.equals("http"))
+		{
+			String url;
+			try
+			{
+				url = args[1];
+			}
+			catch (Exception e)
+			{
+				url = "http://pim.qinka.pro";
+			}
+			bc = new PIMHTTPCollection(url);
+		}
+		else
+		{
+			String filepath;
+			try
+			{
+				filepath = args[1];
+			}
+			catch(Exception e)
+			{
+				filepath = ".ignore/data";
+			}
+			bc = new PIMIOCollection(filepath);
+		}
+	System.out.println("With " + collectionName + "-collection");
 	PIMManager m = new PIMManager(bc);
 	m._opts.add(m.__quit);
 	m._opts.add(m.__save);

@@ -8,19 +8,23 @@ all:    IPIMDateable.class \
 	PIMDateable.class \
 	PIMEntity.class \
 	PIMEntityIC.class \
+	PIMHTTPCollection.class \
 	PIMIOCollection.class \
 	PIMManager.class \
 	PIMNote.class \
 	PIMTodo.class
 
 %.class: %.java gson-2.8.0.jar
-	javac -encoding utf8 -cp ".$(PATH_SPILT)gson-2.8.0.jar" $<
+	javac -g -encoding utf8 -cp ".$(PATH_SPILT)gson-2.8.0.jar" $<
 
 clean:
 	rm -rf *.class
 
 run: gson-2.8.0.jar
 	java -cp '.$(PATH_SPILT)gson-2.8.0.jar' $(ARGS)
+
+debug: gson-2.8.0.jar
+	jdb -classpath '.$(PATH_SPILT)gson-2.8.0.jar' $(ARGS)
 test: Main.class gson-2.8.0.jar
 	java -cp .$(PATH_SPILT)gson-2.8.0.jar Main
 

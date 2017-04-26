@@ -33,21 +33,40 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
     {
 	super();
 	rp = new PIMHTTPRequestProvider(url);
+	pullholder = new PIMHTTPPullHolder();
     }
 
-    public void pull
+    public void pull()
+	{
+		try
+		{
+			pullholder.fetch();
+			pullholder.getCollection(this);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+	public void push()
+	{
+		;
+	}
 
     protected class PIMHTTPPullItem
     {
 	// id
 	public final int id;
 	public final PIMEntity item;
-	protected PIMEntity(int _i,PIMEntity _c)
+	protected PIMHTTPPullItem(int _i,PIMEntity _c)
 	{
 	    id = _i;
 	    item = _c;
 	}
-	protected class PIMEDeserializer implements JsonDeserializer<PIMHTTPPullItem>
+	}
+	public class PIMEDeserializer implements JsonDeserializer<PIMHTTPPullItem>
 	{
 	    public PIMHTTPPullItem deserialize(JsonElement json, Type typeOfT,JsonDeserializationContext context) throws JsonParseException
 	    {
@@ -55,38 +74,38 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 		    {
 			GsonBuilder gb = new GsonBuilder();
 			PIMDateable p = new PIMDateable(null,null);
-			gb.registerTypeAdapter(Date.class,p.new DataDeserializer());
+			gb.registerTypeAdapter(Date.class,p.new DateDeserializer());
   			int _id = json.getAsJsonObject().get("id").getAsInt();
 			PIMEntity _entity;
-			if (json.getAsJsonObject.has("appointment"))
+			if (json.getAsJsonObject().has("appointment"))
 			    {
-				PIMAppointment item = new PIMAppointment(null);
-				item.fromString(json.getAsJsonObject.get("appointment").getAsString());
+				PIMAppointment item = new PIMAppointment(null,null);
+				item.fromString(json.getAsJsonObject().get("appointment").getAsString());
 				_entity = item;
 			    }
-			else if(json.getAsJsonObject.has("context"))
+			else if(json.getAsJsonObject().has("context"))
 			    {
 				PIMContact item = new PIMContact(null,null,null,null);
-				item.fromString(json.getAsJsonObject.get("context").getAsString());
+				item.fromString(json.getAsJsonObject().get("context").getAsString());
 				_entity = item;
 			    }
-		        else if(json.getAsJsonObject.has("note"))
+		        else if(json.getAsJsonObject().has("note"))
 			    {
-				PIMNote item = new PIMNote(null);
-				item.fromString(json.getAsJsonObject.get("note").getAsString());
+				PIMNote item = new PIMNote(null,null);
+				item.fromString(json.getAsJsonObject().get("note").getAsString());
 				_entity = item;
 			    }
-			else if(json.getAsJsonObject.has("todo"))
+			else if(json.getAsJsonObject().has("todo"))
 			    {
-				PIMTodo item = new PIMTodo(null);
-				item.fromString(json.getAsJsonObject.get("todo").getAsString());
+				PIMTodo item = new PIMTodo(null,null);
+				item.fromString(json.getAsJsonObject().get("todo").getAsString());
 				_entity = item;
 			    }
 			else
 			    {
 				throw new JsonParseException("invailed context");
 			    }
-			return new PIMHTTPItem(_id,_entity);
+			return new PIMHTTPPullItem(_id,_entity);
 		    }
 		catch (Exception e)
 		    {
@@ -95,8 +114,7 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    }
 	    
 	}
-    }
-
+    
     protected class PIMHTTPPullHolder
     {
 	// status
@@ -104,30 +122,29 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	private int __status;
 	// contexts
 	@SerializedName("context")
-	private ArrayList<PIMHTTPItem> __context;
+	private ArrayList<PIMHTTPPullItem> __context;
 
 	public PIMHTTPPullHolder()
 	{
 	    __status = -1;
-	    __context = new ArrayList();
+	    __context = null;
 	}
 
 	// fetch
-	public void fetch() throws  PIMHTTPCollectionPullException
+	public void fetch() throws PIMHTTPCollectionPullException,PIMHTTPCollectionPullUnfetchException
 	{
 	    String text = "";
-	    BufferedReader in;
+	    BufferedReader in = null;
 	    try
 		{
 		    URLConnection c = rp.getListRequest(null,null,null,null);
 		    c.connect();
 		    in = new BufferedReader(new InputStreamReader(c.getInputStream()));
 		    String line;
-		    while (line = in.readLine() != null)
+		    while ((line = in.readLine()) != null)
 			{
 			    text += line;
 			}
-		    
 		}
 	    catch (Exception e)
 		{
@@ -145,21 +162,38 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 			    e.printStackTrace();
 			}
 		}
-	    GsonBuilder gb = new GsonBuilder();
-	    gb.registerTypeAdapter(Date.class, p.new DateDeserializer());
-	    gb.registerTypeAdapter(PIMEntity.class,new PIMEntityIC());
-	    PIMHTTPPullHolder tmp =
-	    
+		GsonBuilder gb = new GsonBuilder();
+		PIMDateable p = new PIMDateable(null,null);
+		gb.registerTypeAdapter(Date.class, p.new DateDeserializer());
+		gb.registerTypeAdapter(PIMEntity.class,new PIMEntityIC());
+		gb.registerTypeAdapter(PIMHTTPPullItem.class,new PIMEDeserializer());
+		PIMHTTPPullHolder tmp;
+		try
+		{
+			tmp = gb.create().fromJson(text,PIMHTTPPullHolder.class);
+		}
+		catch(Exception e)
+		{
+			this.__status = gb.create().fromJson(text,JsonElement.class).getAsJsonObject().get("status").getAsInt();
+			this.__context = null;
+			throw new PIMHTTPCollectionPullUnfetchException("status" + __status,__status);
+		}
+		this.__status  = tmp.__status;
+		this.__context = tmp.__context;
 	}
 	
-	public void getCollection(PIMHTTPCollection _hc)
+	public void getCollection(PIMHTTPCollection _hc) throws PIMHTTPCollectionPullUnfetchException
 	{
+		if(__status != 0)
+		{
+			throw new PIMHTTPCollectionPullUnfetchException("Error unfetched", __status);
+		}
 	    _hc.clear();
-	    for(PIMHTTPItem item : __context)
+	    for(PIMHTTPPullItem item : __context)
 		_hc.add(item.item);
 	}
 	
-    }
+	}
 
     protected class PIMHTTPRequestProvider
     {
@@ -170,7 +204,7 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    _url = _base_url;
 	}
 	// get list request
-	public URLConnection getListRequest(String _sub, Date _begin, Date _end, String _own)
+	public URLConnection getListRequest(String _sub, Date _begin, Date _end, String _own) throws IOException
 	{
 	    String sub,begin,end,own;
 	    if (_sub == null)
@@ -182,7 +216,7 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    else
 		{
 		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		    begin = "begin=" + URLDecoder.encode(sdf.format(_begin),"utf8");
+		    begin = "begin=" + URLEncoder.encode(sdf.format(_begin),"utf8");
 		}
 	    
 	    if (_end == null)
@@ -190,20 +224,21 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    else
 		{
 		    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		    end = "end=" + URLDecoder.encode(sdf.format(_end),"utf8");
+		    end = "end=" + URLEncoder.encode(sdf.format(_end),"utf8");
 		}
 	    if(_own == null)
 		own = "";
 	    else
-		own = "own=" + URLDecoder.encode(_own,"utf8");
+		own = "own=" + URLEncoder.encode(_own,"utf8");
 	    String param = "";
-	    for (String item : {begin,end,own})
+		String[] items = {begin,end,own};
+	    for (String item : items)
 		{
 		    char pre;
 		    if (param.isEmpty())
-			pre = "?";
+			pre = '?';
 		    else
-			pre = "&";
+			pre = '&';
 		    if (item.isEmpty())
 			continue;
 		    else
@@ -214,9 +249,9 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    rc.setRequestProperty("user-agent","PIMHTTPRequestProvider with PIMHTTPcollection");
 	    return rc;
 	}
-	
-	
-    }
+	}
+
+	// When HTTP request failed
     public class PIMHTTPCollectionPullException extends Exception
     {
 	public PIMHTTPCollectionPullException(String msg)
@@ -228,15 +263,21 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    super(cause);
 	}
     }
+
+
+	// When Parsing failed -- that means status is not 0.
     public class PIMHTTPCollectionPullUnfetchException extends Exception
     {
-	public PIMHTTPCollectionPullUnfetchException(String msg)
+		public int status_code;
+	public PIMHTTPCollectionPullUnfetchException(String msg,int c)
 	{
 	    super(msg);
+		status_code = c;
 	}	
-	public PIMHTTPCollectionPullUnfetchException(Throwable cause)
+	public PIMHTTPCollectionPullUnfetchException(Throwable cause,int c)
 	{
 	    super(cause);
+		status_code = c;
 	}
     }
 
