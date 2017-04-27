@@ -83,10 +83,10 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 				item.fromString(json.getAsJsonObject().get("appointment").getAsString());
 				_entity = item;
 			    }
-			else if(json.getAsJsonObject().has("context"))
+			else if(json.getAsJsonObject().has("contact"))
 			    {
 				PIMContact item = new PIMContact(null,null,null,null);
-				item.fromString(json.getAsJsonObject().get("context").getAsString());
+				item.fromString(json.getAsJsonObject().get("contact").getAsString());
 				_entity = item;
 			    }
 		        else if(json.getAsJsonObject().has("note"))
