@@ -20,7 +20,7 @@ all:    IPIMDateable.class \
 clean:
 	rm -rf *.class
 
-run: gson-2.8.0.jar
+run: gson-2.8.0.jar all
 	java -cp '.$(PATH_SPILT)gson-2.8.0.jar' $(ARGS)
 
 debug: gson-2.8.0.jar

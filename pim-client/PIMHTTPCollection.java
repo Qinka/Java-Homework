@@ -60,11 +60,14 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 	    {
 		System.out.println(pushholder.count());
 		pushholder.commit();
-		System.out.println(this.size() - non_update_begin_index);
 	    }
 	catch(Exception e)
 	    {
 		e.printStackTrace();
+	    }
+	finally
+	    {
+		System.out.println(this.size() - non_update_begin_index);
 	    }
     }
     
@@ -232,7 +235,11 @@ public class PIMHTTPCollection extends PIMCollection implements PIMCollectionSto
 		}
 	    else if(type.equals("contact"))
 		{
-		    post = "email=" + URLEncoder.encode(((PIMContact)item).getEmail());
+		    post = "email=" + URLEncoder.encode(((PIMContact)item).getEmail())
+			+ "&fname=" + URLEncoder.encode(((PIMContact)item).getFirstName())
+			+ "&lname=" + URLEncoder.encode(((PIMContact)item).getLastName())
+			;
+		    
 		}
 	    else if(type.equals("note"))
 		{
