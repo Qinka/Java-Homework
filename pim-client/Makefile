@@ -14,23 +14,23 @@ all:    IPIMDateable.class \
 	PIMNote.class \
 	PIMTodo.class
 
-%.class: %.java gson-2.8.0.jar
-	javac -g -encoding utf8 -cp ".$(PATH_SPILT)gson-2.8.0.jar" $<
+GSON_VERSION=$(GSON_VERSION)
+
+%.class: %.java gson-$(GSON_VERSION).jar
+	javac -g -encoding utf8 -cp ".$(PATH_SPILT)gson-$(GSON_VERSION).jar" $<
 
 clean:
 	rm -rf *.class
 
-run: gson-2.8.0.jar all
-	java -cp '.$(PATH_SPILT)gson-2.8.0.jar' $(ARGS)
+run: gson-$(GSON_VERSION).jar all
+	java -cp '.$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
 
-debug: gson-2.8.0.jar
-	jdb -classpath '.$(PATH_SPILT)gson-2.8.0.jar' $(ARGS)
-test: Main.class gson-2.8.0.jar
-	java -cp .$(PATH_SPILT)gson-2.8.0.jar Main
+debug: gson-$(GSON_VERSION).jar
+	jdb -classpath '.$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
 
 
-gson-2.8.0.jar:
-	@wget http://repo1.maven.org/maven2/com/google/code/gson/gson/2.8.0/gson-2.8.0.jar
+gson-$(GSON_VERSION).jar:
+	@wget http://repo1.maven.org/maven2/com/google/code/gson/gson/$(GSON_VERSION)/gson-$(GSON_VERSION).jar
 
 
 fix-1:

@@ -6,6 +6,8 @@
 \usepackage{listings}
 \lstset{breaklines,numbers=left}
 
+\usepackage{hyperref}
+
 \usepackage{uml}
 
 \title{Java Homework Report III}
@@ -31,14 +33,14 @@
 The Collection of the PIM, named \lstinline|PIMCollection|, is designed as a container, as well as a collection,
 where the items will be stored.
 
-The basic \lstinline|PIMCollection| should be looked like figure \ref{fig:uml:basic:pimc}
+The basic \lstinline|PIMCollection| should be looked like figure \ref{fig:uml:basic:pimc}.
 
 \begin{figure}[h!]
   \centering
   \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
   {
     \umlClass[reference=pimca,pos={3,3}]{PIMCollection}{}
-    {
+    {%
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
       \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
       \umlMethod[visibility=+,returntype=Collection]{getAppointments}{}
@@ -58,7 +60,7 @@ like figure \ref{fig:uml:pimc}.
   \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
   {
     \umlClass[reference=pimc,pos={3,3}]{PIMCollection}{}
-    {
+    {%
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{String owner}
       \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
@@ -85,9 +87,9 @@ That class should be an inferface \lstinline|PIMBaseCollection|, just like figur
   \centering
   \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
   {
-    \umlClass[reference=collection,poDelta={1,1},stereotype=interface]{Collection<PIMEntity>}{}{...}
-    \umlClass[reference=ipimc,posDelta={3,3},stereotype=interface]{PIMBaseCollection}{}
-    {
+    \umlClass[reference=collection,posDelta={-30,1},stereotype=interface]{Collection<PIMEntity>}{}{...}
+    \umlClass[reference=ipimc,posDelta={0,3},stereotype=interface]{PIMBaseCollection}{}
+    {%
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{String owner}
       \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
@@ -102,7 +104,7 @@ That class should be an inferface \lstinline|PIMBaseCollection|, just like figur
       \umlMethod[visibility=+,returntype=Collection]{getAll}{String owner}
       \umlMethod[visibility=+,returntype=boolean]{add}{PIMEntity item}
     }
-    \umlClass[reference=pimc,posDelta={3,4}]{PIMCollection}{}{...}
+    \umlClass[reference=pimc,posDelta={30,4}]{PIMCollection}{}{...}
     \umlInstance{pimc}{ipimc}
     \umlSubclass{ipimc}{collection}
   }
@@ -110,7 +112,39 @@ That class should be an inferface \lstinline|PIMBaseCollection|, just like figur
   \label{fig:uml:ipimc}
 \end{figure}
 
-When the Collection need to 
+When the ``Collection'' need to store datas to somewhere or fetch the datas from somewhere,
+there is a interface, named \lstinline|PIMIOCollection|, needed,
+and the UML figure is figure \ref{fig:uml:iointerface}.
 
+\begin{figure}[h!]
+    \centering
+    \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
+    {%
+        \umlClass[reference=collection,posDelta={1,1},stereotype=interface]{PIMIOCollection}{}
+        {%
+            \umlMethod[visibility=+,returntype=void]{push}{}
+            \umlMethod[visibility=+,returntype=void]{pull}{}
+        }
+    }
+    \caption{The Inferface of IO}
+    \label{fig:uml:iointerface}
+\end{figure}
+
+In the interface \lstinline|PIMBaseCollection| the functions,
+there, are used to get the items or add the item to collection.
+When getting from the somewhere, the items can be filtered by ownership.
+When storing the datas to disk, backend, or database, the interface \lstinline|PIMIOCollection|
+define two method: \lstinline|push| and \lstinline|pull|. The former is updating datas to somewhere,
+and the latter is fetching datas from somewhere. The build-in command \verb|save| and \verb|load|,
+will call such two methods to update and fetch.
+
+\section{Sources}
+\label{sec:source}
+
+The \lstinline|PIMBaseCollection| is an instance of \lstinline|Collection<PIMEntity|,
+and at the same time, the basic \lstinline|PIMCollection| is an instance of \lstinline|ArratList<PIMEntity|.
+The other collection instances is the subclass of the \lstinline|PIMCollection|.
+
+The codes are in the folder.
 
 \end{document}
