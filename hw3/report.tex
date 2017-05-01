@@ -1,0 +1,116 @@
+\documentclass{article}
+
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+
+\usepackage{listings}
+\lstset{breaklines,numbers=left}
+
+\usepackage{uml}
+
+\title{Java Homework Report III}
+\author{李约瀚 \\ 14130140331 \\ Qinka \\ qinka@live.com \\ me@qinka.pro}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+
+{\Huge \textbf{Copyleft (C) 2017}}
+\par
+{\Huge \textbf{GPL 3}}
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Design}
+\label{sec:design}
+
+The Collection of the PIM, named \lstinline|PIMCollection|, is designed as a container, as well as a collection,
+where the items will be stored.
+
+The basic \lstinline|PIMCollection| should be looked like figure \ref{fig:uml:basic:pimc}
+
+\begin{figure}[h!]
+  \centering
+  \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
+  {
+    \umlClass[reference=pimca,pos={3,3}]{PIMCollection}{}
+    {
+      \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
+      \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
+      \umlMethod[visibility=+,returntype=Collection]{getAppointments}{}
+      \umlMethod[visibility=+,returntype=Collection]{getContacts}{}
+      \umlMethod[visibility=+,returntype=Collection]{getItemsForDate}{Date d}
+    }
+  }
+  \caption{Basic PIMCollection}
+  \label{fig:uml:basic:pimc}
+\end{figure}
+
+According to \lstinline|RemotePIMCollection| in final homework, the ``Collection'' is changed,
+like figure \ref{fig:uml:pimc}.
+
+\begin{figure}[h!]
+  \centering
+  \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
+  {
+    \umlClass[reference=pimc,pos={3,3}]{PIMCollection}{}
+    {
+      \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
+      \umlMethod[visibility=+,returntype=Collection]{getNotes}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
+      \umlMethod[visibility=+,returntype=Collection]{getTodos}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getAppointments}{}
+      \umlMethod[visibility=+,returntype=Collection]{getAppointments}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getContacts}{}
+      \umlMethod[visibility=+,returntype=Collection]{getContacts}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getItemsForDate}{Date d}
+      \umlMethod[visibility=+,returntype=Collection]{getItemsForDate}{Date d,String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getAll}{}
+      \umlMethod[visibility=+,returntype=Collection]{getAll}{String owner}
+      \umlMethod[visibility=+,returntype=boolean]{add}{PIMEntity item}
+    }
+  }
+  \caption{Class PIMCollection}
+  \label{fig:uml:pimc}
+\end{figure}
+
+
+That class should be an inferface \lstinline|PIMBaseCollection|, just like figure \ref{fig:uml:ipimc}.
+
+\begin{figure}[h!]
+  \centering
+  \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
+  {
+    \umlClass[reference=collection,poDelta={1,1},stereotype=interface]{Collection<PIMEntity>}{}{...}
+    \umlClass[reference=ipimc,posDelta={3,3},stereotype=interface]{PIMBaseCollection}{}
+    {
+      \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
+      \umlMethod[visibility=+,returntype=Collection]{getNotes}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
+      \umlMethod[visibility=+,returntype=Collection]{getTodos}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getAppointments}{}
+      \umlMethod[visibility=+,returntype=Collection]{getAppointments}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getContacts}{}
+      \umlMethod[visibility=+,returntype=Collection]{getContacts}{String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getItemsForDate}{Date d}
+      \umlMethod[visibility=+,returntype=Collection]{getItemsForDate}{Date d,String owner}
+      \umlMethod[visibility=+,returntype=Collection]{getAll}{}
+      \umlMethod[visibility=+,returntype=Collection]{getAll}{String owner}
+      \umlMethod[visibility=+,returntype=boolean]{add}{PIMEntity item}
+    }
+    \umlClass[reference=pimc,posDelta={3,4}]{PIMCollection}{}{...}
+    \umlInstance{pimc}{ipimc}
+    \umlSubclass{ipimc}{collection}
+  }
+  \caption{Inferface of PIMCollection}
+  \label{fig:uml:ipimc}
+\end{figure}
+
+When the Collection need to 
+
+
+\end{document}
