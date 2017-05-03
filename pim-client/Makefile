@@ -1,4 +1,5 @@
 PATH_SPILT=:
+GSON_VERSION=2.8.0
 
 all:    IPIMDateable.class \
 	PIMAppointment.class \
@@ -13,8 +14,6 @@ all:    IPIMDateable.class \
 	PIMManager.class \
 	PIMNote.class \
 	PIMTodo.class
-
-GSON_VERSION=$(GSON_VERSION)
 
 %.class: %.java gson-$(GSON_VERSION).jar
 	javac -g -encoding utf8 -cp ".$(PATH_SPILT)gson-$(GSON_VERSION).jar" $<
