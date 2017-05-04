@@ -21,7 +21,9 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar" $<
 
 clean:
-	@find . | grep -E '*.class' | awk '{print "rm -rf "$0}' | sh
+	@find . | grep -E '*.class' | awk "{print \"rm -rf \'\"\$$0\"\'\"}" | sh
+deepclean: clean
+	@find . | grep -E '*/gson-'$(GSON_VERSION).jar | awk '{print "rm -rf "$0}' | sh
 
 run: gson-$(GSON_VERSION).jar all
 	java -cp '$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
