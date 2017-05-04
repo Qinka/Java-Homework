@@ -19,12 +19,12 @@ is using `;` for spilt each item of the `PATH` environment.
 
 # Usage
 
-To using these cli-app, run `make run ARGS='PIMManager'`, and then the interaction will be launched.
+To using these cli-app, run `make run ARGS='pro.qinka.pim.PIMManager'`, and then the interaction will be launched.
 
 If your os is Windows, you need run `make run ARGS='PIMManager' PATH_SPILT=';'`, because windows
 is using `;` for spilt each item of the `PATH` environment.
 
-The above command will print the real command to run the app, and if you might be able to use `make run ARGS='PIMManager' | sh` to run the app. 
+The above command will print the real command to run the app, and if you might be able to use `make run ARGS='pro.qinka.pim.PIMManager' | sh` to run the app. 
 
 For usage's details, you can read the documents(User's Guide) in the doc directory or just to look through [User's Guide](http://prj.qinka.pw/java-homework/pim/usersguide).
 
