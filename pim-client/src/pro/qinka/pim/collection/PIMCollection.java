@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.stream.*;
 import java.util.function.*;
 
+import pro.qinka.pim.entity.*;
+
 /**
  *
  * PIMCollection

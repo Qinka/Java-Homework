@@ -1,31 +1,33 @@
 PATH_SPILT=:
 GSON_VERSION=2.8.0
+SOURCE_DIR=./src
 
-all:    IPIMDateable.class \
-	PIMAppointment.class \
-	PIMBaseCollection.class \
-	PIMCollection.class \
-	PIMContact.class \
-	PIMDateable.class \
-	PIMEntity.class \
-	PIMEntityIC.class \
-	PIMHTTPCollection.class \
-	PIMIOCollection.class \
-	PIMManager.class \
-	PIMNote.class \
-	PIMTodo.class
+all:    src/pro/qinka/pim/PIMManager.class \
+	src/pro/qinka/pim/collection/PIMBaseCollection.class \
+	src/pro/qinka/pim/collection/PIMCollection.class \
+	src/pro/qinka/pim/collection/PIMCollectionStored.class \
+	src/pro/qinka/pim/collection/http/PIMHTTPCollection.class \
+	src/pro/qinka/pim/collection/io/PIMIOCollection.class \
+	src/pro/qinka/pim/entity/IPIMDateable.class \
+	src/pro/qinka/pim/entity/PIMAppointment.class \
+	src/pro/qinka/pim/entity/PIMContact.class \
+	src/pro/qinka/pim/entity/PIMDateable.class \
+	src/pro/qinka/pim/entity/PIMEntity.class \
+	src/pro/qinka/pim/entity/PIMEntityIC.class \
+	src/pro/qinka/pim/entity/PIMNote.class \
+	src/pro/qinka/pim/entity/PIMTodo.class
 
 %.class: %.java gson-$(GSON_VERSION).jar
-	javac -g -encoding utf8 -cp ".$(PATH_SPILT)gson-$(GSON_VERSION).jar" $<
+	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar" $<
 
 clean:
-	rm -rf *.class
+	@find . | grep -E '*.class' | awk '{print "rm -rf "$0}' | sh
 
 run: gson-$(GSON_VERSION).jar all
-	java -cp '.$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
+	java -cp '$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
 
 debug: gson-$(GSON_VERSION).jar
-	jdb -classpath '.$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
+	jdb -classpath '$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
 
 
 gson-$(GSON_VERSION).jar:
