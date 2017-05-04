@@ -39,7 +39,7 @@ The basic \lstinline|PIMCollection| should be looked like figure \ref{fig:uml:ba
   \centering
   \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
   {
-    \umlClass[reference=pimca,pos={3,3}]{PIMCollection}{}
+    \umlClass[reference=pimca,pos={1,1}]{PIMCollection}{}
     {%
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
       \umlMethod[visibility=+,returntype=Collection]{getTodos}{}
@@ -57,9 +57,9 @@ like figure \ref{fig:uml:pimc}.
 
 \begin{figure}[h!]
   \centering
-  \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
+  \umlDiagram[box=,sizeX=9cm,sizeY=7cm]
   {
-    \umlClass[reference=pimc,pos={3,3}]{PIMCollection}{}
+    \umlClass[reference=pimc,pos={1,1}]{PIMCollection}{}
     {%
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{String owner}
@@ -85,10 +85,10 @@ That class should be an inferface \lstinline|PIMBaseCollection|, just like figur
 
 \begin{figure}[h!]
   \centering
-  \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
+  \umlDiagram[box=,sizeX=8.54cm,sizeY=12cm]
   {
-    \umlClass[reference=collection,posDelta={-30,1},stereotype=interface]{Collection<PIMEntity>}{}{...}
-    \umlClass[reference=ipimc,posDelta={0,3},stereotype=interface]{PIMBaseCollection}{}
+    \umlClass[reference=collection,posDelta={5,28},stereotype=interface]{Collection<PIMEntity>}{}{...}
+    \umlClass[reference=ipimc,posDelta={1,7},stereotype=interface]{PIMBaseCollection}{}
     {%
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{}
       \umlMethod[visibility=+,returntype=Collection]{getNotes}{String owner}
@@ -104,7 +104,7 @@ That class should be an inferface \lstinline|PIMBaseCollection|, just like figur
       \umlMethod[visibility=+,returntype=Collection]{getAll}{String owner}
       \umlMethod[visibility=+,returntype=boolean]{add}{PIMEntity item}
     }
-    \umlClass[reference=pimc,posDelta={30,4}]{PIMCollection}{}{...}
+    \umlClass[reference=pimc,posDelta={7,1}]{PIMCollection}{}{...}
     \umlInstance{pimc}{ipimc}
     \umlSubclass{ipimc}{collection}
   }
@@ -120,7 +120,7 @@ and the UML figure is figure \ref{fig:uml:iointerface}.
     \centering
     \umlDiagram[box=,sizeX=7cm,sizeY=4cm]
     {%
-        \umlClass[reference=collection,posDelta={1,1},stereotype=interface]{PIMIOCollection}{}
+        \umlClass[reference=collection,posDelta={4,2.6},stereotype=interface]{PIMIOCollection}{}
         {%
             \umlMethod[visibility=+,returntype=void]{push}{}
             \umlMethod[visibility=+,returntype=void]{pull}{}
