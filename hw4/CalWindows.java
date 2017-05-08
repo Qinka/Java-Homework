@@ -15,82 +15,168 @@ import java.util.*;
  */
 public class CalWindows extends JFrame {
 
-    private int __result;
+    private Integer __result;
     private int __sign;
+    private boolean __new;
+    private char opt;
 
 
 
     public CalWindows(String title) {
 	super(title);
-	__result = 0;
-	__sign = 0;
+	__result = null;
+	__sign = 1;
 	initComponents();
+	opt = '\0';
+	__new = true;
+    }
+    private void cclean() {	
+	if(!__new) eval.setText("");
+	if(eval.getText().equals("0") ||eval.getText().equals("-0"))
+	    eval.setText("");
+    }
+	
+    private void evalOpt(char o) {
+	if(opt == '\0' && eval.getText().isEmpty() && o == '+') {
+	    __sign = 1;
+	    eval.setText("");
+	}
+	else if(opt == '\0' && eval.getText().isEmpty() && o == '-') {
+	    __sign = -1;
+	    eval.setText("-");
+	}
+	else if(opt == '\0' && __result == null) {
+	    try {
+		__result = Integer.parseInt(eval.getText());
+		eval.setText("");
+		opt = o;
+	    }
+	    catch (Exception e) {
+		System.err.println(e);
+	    }
+	}
+	else if(opt == '\0' && __result != null) {
+	    opt = o;
+	}
+	else if(opt != '\0' && __result != null) {
+	    int tmp;
+	    try {
+		tmp = Integer.parseInt(eval.getText());
+	    }
+	    catch (Exception e) {
+		System.err.println(e);
+		return;
+	    }
+	    switch (opt){
+	    case '+':
+		__result += tmp;
+		break;
+	    case '-':
+		__result -= tmp;
+		break;
+	    case '*':
+		__result *= tmp;
+		break;
+	    case '/' :
+		__result /= tmp;
+	    default:
+		System.err.println(new Exception("Unknown opterator"));
+		break;
+	    }
+	    switch(o) {
+	    case '=':
+		eval.setText(__result.toString());
+		opt = '\0';
+		__new = false;
+		break;
+	    default:
+		eval.setText(__result.toString());
+		__new = false;
+		opt = o;
+	    }
+	}
+	else {
+	    System.err.println(new Exception("???"));
+	}
+		
     }
     
     private void b7MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"7");
     }
 
     private void b8MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"8");
     }
 
     private void b9MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"9");
     }
 
     private void bPlusMouseClicked(MouseEvent e) {
-	// TODO add your code here
+	evalOpt('+');
     }
 
     private void b4MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"4");
     }
 
     private void b5MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"5");
     }
 
     private void b6MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"6");
     }
 
     private void bMinusMouseClicked(MouseEvent e) {
-	
+	evalOpt('-');
     }
 
     private void b1MouseClicked(MouseEvent e) {
+	cclean();
 	eval.setText(eval.getText()+"1");
     }
 
-    private void b2MouseClicked(MouseEvent e) {	
+    private void b2MouseClicked(MouseEvent e) { 
+	cclean();
 	eval.setText(eval.getText()+"2");
     }
 
     private void b3MouseClicked(MouseEvent e) {
-	eval.setText(eval.getText()+"2");
+	cclean();
+	eval.setText(eval.getText()+"3");
     }
 
     private void bTimesMouseClicked(MouseEvent e) {
+	evalOpt('*');
     }
 
     private void b0MouseClicked(MouseEvent e) {
-	if(eval.getText().isEmpty())
-	    return;
-	else
-	    eval.setText(eval.getText()+"0");
+	cclean();
+	eval.setText(eval.getText()+"0");
     }
 
     private void bCRLMouseClicked(MouseEvent e) {
-	// TODO add your code here
+	__result = null;
+	__new = true;
+	__sign = 1;
+	opt = '\0';
+	eval.setText("");
     }
 
     private void bEqMouseClicked(MouseEvent e) {
-	// TODO add your code here
+	evalOpt('=');
     }
 
     private void bDivMouseClicked(MouseEvent e) {
-	// TODO add your code here
+	evalOpt('/');
     }
 
     private void initComponents() {

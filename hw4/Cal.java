@@ -19,5 +19,6 @@ public class Cal extends JFrame
     {
 	CalWindows c = new CalWindows("test");
 	c.setVisible(true);
+	c.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
