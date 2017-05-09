@@ -3,7 +3,9 @@ GSON_VERSION=2.8.0
 GSON_JAR=gson-$(GSON_VERSION).jar
 PGJDBC_VERSION=42.1.1
 PGJDBC_JAR=postgresql-$(PGJDBC_VERSION).jar
-JARS=$(PATH_SPILT)$(GSON_JAR)$(PATH_SPILT)$(PGJDBC_JAR)
+MIGLAYOUT_VERSION=4.0
+MIGLAYOUT_JAR=miglayout-$(MIGLAYOUT_VERSION)-swing.jar
+JARS=$(PATH_SPILT)$(GSON_JAR)$(PATH_SPILT)$(PGJDBC_JAR)$(PATH_SPILT)$(MIGLAYOUT_JAR)
 SOURCE_DIR=./src
 
 all:    src/pro/qinka/pim/PIMManager.class \
@@ -23,7 +25,7 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/entity/PIMNote.class \
 	src/pro/qinka/pim/entity/PIMTodo.class
 
-%.class: %.java $(GSON_JAR) $(PGJDBC_JAR) 
+%.class: %.java $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR)
 	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(JARS)" $<
 
 clean:
@@ -44,6 +46,9 @@ $(GSON_JAR):
 
 $(PGJDBC_JAR):
 	@wget https://jdbc.postgresql.org/download/$(PGJDBC_JAR) 
+
+$(MIGLAYOUT_JAR):
+			@wget http://www.migcalendar.com/miglayout/versions/$(MIGLAYOUT_VERSION)/$(MIGLAYOUT_JAR)
 
 
 fix-1:
