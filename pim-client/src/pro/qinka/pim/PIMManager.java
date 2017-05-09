@@ -10,6 +10,7 @@ import pro.qinka.pim.entity.*;
 import pro.qinka.pim.collection.*;
 import pro.qinka.pim.collection.http.*;
 import pro.qinka.pim.collection.io.*;
+import pro.qinka.pim.collection.db.*;
 
 public class PIMManager
 {
@@ -41,6 +42,39 @@ public class PIMManager
 				url = "http://pim.qinka.pro";
 			}
 			bc = new PIMHTTPCollection(url);
+		}
+		else if(collectionName.equals("db")) {
+		    String url,user,passwd;
+		    try {
+			url = args[1];
+		    }
+		    catch(Exception e) {
+			url = "jdbc:postgresql://pim.qinka.pro:54321/postgres";
+		    }
+		    try {
+			user = args[2];
+		    }
+		    catch(Exception e) {
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("Enter your user name:");
+			try {
+			user = br.readLine();
+			}
+			catch(Exception ee) {
+			    user = "postgres";
+			}
+		    }			
+		    System.out.println("Enter your password:");
+		    Console sc = System.console();
+		    passwd = new String(sc.readPassword());
+		    try {
+			bc = new PIMDBCollection(url,user,passwd);
+		    }
+		    catch(Exception e){
+			e.printStackTrace();
+			return;
+		    }	
+		    
 		}
 		else
 		{

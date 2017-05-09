@@ -1,11 +1,17 @@
 PATH_SPILT=:
 GSON_VERSION=2.8.0
+GSON_JAR=gson-$(GSON_VERSION).jar
+PGJDBC_VERSION=42.1.1
+PGJDBC_JAR=postgresql-$(PGJDBC_VERSION).jar
+JARS=$(PATH_SPILT)$(GSON_JAR)$(PATH_SPILT)$(PGJDBC_JAR)
 SOURCE_DIR=./src
 
 all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/collection/PIMBaseCollection.class \
 	src/pro/qinka/pim/collection/PIMCollection.class \
 	src/pro/qinka/pim/collection/PIMCollectionStored.class \
+	src/pro/qinka/pim/collection/db/PIMDBCollection.class \
+	src/pro/qinka/pim/collection/db/SQLStatementProvider.class \
 	src/pro/qinka/pim/collection/http/PIMHTTPCollection.class \
 	src/pro/qinka/pim/collection/io/PIMIOCollection.class \
 	src/pro/qinka/pim/entity/IPIMDateable.class \
@@ -17,23 +23,27 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/entity/PIMNote.class \
 	src/pro/qinka/pim/entity/PIMTodo.class
 
-%.class: %.java gson-$(GSON_VERSION).jar
-	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar" $<
+%.class: %.java $(GSON_JAR) $(PGJDBC_JAR) 
+	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(JARS)" $<
 
 clean:
 	@find . | grep -E '*.class' | awk "{print \"rm -rf \'\"\$$0\"\'\"}" | sh
 deepclean: clean
-	@find . | grep -E '*/gson-'$(GSON_VERSION).jar | awk '{print "rm -rf "$0}' | sh
+	@find . | grep -E '*/'$(PGJDBC_JAR) | awk '{print "rm -rf "$0}' | sh
+	@find . | grep -E '*/'$(PGJDBC_JAR) | awk '{print "rm -rf "$0}' | sh
 
-run: gson-$(GSON_VERSION).jar all
-	java -cp '$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
+run: $(GSON_JAR) all
+	java -cp '$(SOURCE_DIR)$(JARS)' pro.qinka.pim.PIMManager $(ARGS)
 
-debug: gson-$(GSON_VERSION).jar
-	jdb -classpath '$(SOURCE_DIR)$(PATH_SPILT)gson-$(GSON_VERSION).jar' $(ARGS)
+debug: (GSON_JAR) all
+	jdb -classpath '$(SOURCE_DIR)$(JARS)' $(ARGS)
 
 
-gson-$(GSON_VERSION).jar:
-	@wget http://repo1.maven.org/maven2/com/google/code/gson/gson/$(GSON_VERSION)/gson-$(GSON_VERSION).jar
+$(GSON_JAR):
+	@wget http://repo1.maven.org/maven2/com/google/code/gson/gson/$(GSON_VERSION)/$(GSON_JAR)
+
+$(PGJDBC_JAR):
+	@wget https://jdbc.postgresql.org/download/$(PGJDBC_JAR) 
 
 
 fix-1:

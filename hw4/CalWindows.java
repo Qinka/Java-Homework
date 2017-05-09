@@ -201,20 +201,24 @@ public class CalWindows extends JFrame {
 	bDiv = new JButton();
 
 	//======== this ========
+	setResizable(false);
 	Container contentPane = getContentPane();
 	contentPane.setLayout(new MigLayout(
-					    "hidemode 3,alignx center",
-					    // columns
-					    "[17,fill]" +
-					    "[fill]" +
-					    "[fill]" +
-					    "[fill]",
-					    // rows
-					    "[]" +
-					    "[]" +
-					    "[]" +
-					    "[]" +
-					    "[]"));
+		"hidemode 3,alignx center",
+		// columns
+		"[17,fill]" +
+		"[fill]" +
+		"[fill]" +
+		"[fill]",
+		// rows
+		"[]" +
+		"[]" +
+		"[]" +
+		"[]" +
+		"[]"));
+
+	//---- eval ----
+	eval.setText("l");
 	contentPane.add(eval, "cell 0 0 4 1,growx");
 
 	//---- b7 ----
@@ -222,9 +226,9 @@ public class CalWindows extends JFrame {
 	b7.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b7MouseClicked(e);
+			b7MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b7, "cell 0 1,grow");
 
 	//---- b8 ----
@@ -232,9 +236,9 @@ public class CalWindows extends JFrame {
 	b8.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b8MouseClicked(e);
+			b8MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b8, "cell 1 1,grow");
 
 	//---- b9 ----
@@ -242,9 +246,9 @@ public class CalWindows extends JFrame {
 	b9.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b9MouseClicked(e);
+			b9MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b9, "cell 2 1,grow");
 
 	//---- bPlus ----
@@ -252,9 +256,9 @@ public class CalWindows extends JFrame {
 	bPlus.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    bPlusMouseClicked(e);
+			bPlusMouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(bPlus, "cell 3 1,grow");
 
 	//---- b4 ----
@@ -262,9 +266,9 @@ public class CalWindows extends JFrame {
 	b4.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b4MouseClicked(e);
+			b4MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b4, "cell 0 2,grow");
 
 	//---- b5 ----
@@ -272,9 +276,9 @@ public class CalWindows extends JFrame {
 	b5.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b5MouseClicked(e);
+			b5MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b5, "cell 1 2,grow");
 
 	//---- b6 ----
@@ -282,9 +286,9 @@ public class CalWindows extends JFrame {
 	b6.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b6MouseClicked(e);
+			b6MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b6, "cell 2 2,grow");
 
 	//---- bMinus ----
@@ -292,9 +296,9 @@ public class CalWindows extends JFrame {
 	bMinus.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    bMinusMouseClicked(e);
+			bMinusMouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(bMinus, "cell 3 2,grow");
 
 	//---- b1 ----
@@ -302,9 +306,9 @@ public class CalWindows extends JFrame {
 	b1.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b1MouseClicked(e);
+			b1MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b1, "cell 0 3,grow");
 
 	//---- b2 ----
@@ -312,9 +316,9 @@ public class CalWindows extends JFrame {
 	b2.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b2MouseClicked(e);
+			b2MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b2, "cell 1 3,grow");
 
 	//---- b3 ----
@@ -322,9 +326,9 @@ public class CalWindows extends JFrame {
 	b3.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b3MouseClicked(e);
+			b3MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b3, "cell 2 3,grow");
 
 	//---- bTimes ----
@@ -332,9 +336,9 @@ public class CalWindows extends JFrame {
 	bTimes.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    bTimesMouseClicked(e);
+			bTimesMouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(bTimes, "cell 3 3,grow");
 
 	//---- b0 ----
@@ -342,9 +346,9 @@ public class CalWindows extends JFrame {
 	b0.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    b0MouseClicked(e);
+			b0MouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(b0, "cell 0 4,grow");
 
 	//---- bCRL ----
@@ -352,9 +356,9 @@ public class CalWindows extends JFrame {
 	bCRL.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    bCRLMouseClicked(e);
+			bCRLMouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(bCRL, "cell 1 4,grow");
 
 	//---- bEq ----
@@ -362,9 +366,9 @@ public class CalWindows extends JFrame {
 	bEq.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    bEqMouseClicked(e);
+			bEqMouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(bEq, "cell 2 4,grow");
 
 	//---- bDiv ----
@@ -372,9 +376,9 @@ public class CalWindows extends JFrame {
 	bDiv.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent e) {
-		    bDivMouseClicked(e);
+			bDivMouseClicked(e);
 		}
-	    });
+	});
 	contentPane.add(bDiv, "cell 3 4,grow");
 	pack();
 	setLocationRelativeTo(getOwner());
@@ -382,23 +386,23 @@ public class CalWindows extends JFrame {
     }
 
     // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - John Lee
-    private JTextField eval;
-    private JButton b7;
-    private JButton b8;
-    private JButton b9;
-    private JButton bPlus;
-    private JButton b4;
-    private JButton b5;
-    private JButton b6;
-    private JButton bMinus;
-    private JButton b1;
-    private JButton b2;
-    private JButton b3;
-    private JButton bTimes;
-    private JButton b0;
-    private JButton bCRL;
-    private JButton bEq;
-    private JButton bDiv;
+	// Generated using JFormDesigner Evaluation license - John Lee
+	private JTextField eval;
+	private JButton b7;
+	private JButton b8;
+	private JButton b9;
+	private JButton bPlus;
+	private JButton b4;
+	private JButton b5;
+	private JButton b6;
+	private JButton bMinus;
+	private JButton b1;
+	private JButton b2;
+	private JButton b3;
+	private JButton bTimes;
+	private JButton b0;
+	private JButton bCRL;
+	private JButton bEq;
+	private JButton bDiv;
     // JFormDesigner - End of variables declaration  //GEN-END:variables
 }
