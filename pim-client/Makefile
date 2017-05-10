@@ -23,7 +23,13 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/entity/PIMEntity.class \
 	src/pro/qinka/pim/entity/PIMEntityIC.class \
 	src/pro/qinka/pim/entity/PIMNote.class \
-	src/pro/qinka/pim/entity/PIMTodo.class
+	src/pro/qinka/pim/entity/PIMTodo.class \
+	src/pro/qinka/pim/gui/ConnectionWindows.class \
+	src/pro/qinka/pim/gui/Connector.class \
+	src/pro/qinka/pim/gui/ConnectSelect.class \
+	src/pro/qinka/pim/gui/DayItem.class \
+	src/pro/qinka/pim/gui/MainWindows.class \
+	src/Test.class
 
 %.class: %.java $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR)
 	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(JARS)" $<
@@ -34,12 +40,14 @@ deepclean: clean
 	@find . | grep -E '*/'$(PGJDBC_JAR) | awk '{print "rm -rf "$0}' | sh
 	@find . | grep -E '*/'$(PGJDBC_JAR) | awk '{print "rm -rf "$0}' | sh
 
-run: $(GSON_JAR) all
+run: $(GSON_JAR)  $(PGJDBC_JAR) $(MIGLAYOUT_JAR) all
 	java -cp '$(SOURCE_DIR)$(JARS)' pro.qinka.pim.PIMManager $(ARGS)
 
-debug: (GSON_JAR) all
+debug: $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR) all
 	jdb -classpath '$(SOURCE_DIR)$(JARS)' $(ARGS)
 
+runsome: $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR) all
+	java -cp '$(SOURCE_DIR)$(JARS)' $(ARGS)
 
 $(GSON_JAR):
 	@wget http://repo1.maven.org/maven2/com/google/code/gson/gson/$(GSON_VERSION)/$(GSON_JAR)
