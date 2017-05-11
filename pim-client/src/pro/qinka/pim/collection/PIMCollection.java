@@ -133,7 +133,11 @@ public class PIMCollection extends ArrayList<PIMEntity> implements PIMBaseCollec
 			  if(isDateble)
 			      {
 				  PIMDateable d = (PIMDateable)p;
-				  return d.getDate().equals(_d);
+				  Date dd = d.getDate(); // _d
+				  return dd.getDate() == _d.getDate()
+				      && dd.getMonth() == _d.getMonth()
+				      && dd.getYear() == _d.getYear()
+				      ;
 			      }
 			  return false;
 		      });

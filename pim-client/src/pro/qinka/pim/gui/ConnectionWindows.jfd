@@ -1,4 +1,4 @@
-JFDML JFormDesigner: "6.0.0.0.84" Java: "1.8.0_112" encoding: "UTF-8"
+JFDML JFormDesigner: "6.0.0.0.84" Java: "1.8.0_121" encoding: "UTF-8"
 
 new FormModel {
 	contentType: "form/swing"
@@ -44,6 +44,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "textField1"
+				addEvent( new FormEvent( "javax.swing.event.CaretListener", "caretUpdate", "fieldUpdateCheck", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 2"
 			} )
@@ -55,6 +56,7 @@ new FormModel {
 			} )
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "connectionparam"
+				addEvent( new FormEvent( "javax.swing.event.CaretListener", "caretUpdate", "fieldUpdateCheck", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 4 2 1"
 			} )
@@ -75,18 +77,22 @@ new FormModel {
 			add( new FormComponent( "javax.swing.JTextField" ) {
 				name: "usernameI"
 				"visible": false
+				addEvent( new FormEvent( "javax.swing.event.CaretListener", "caretUpdate", "fieldUpdateCheck", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 6"
 			} )
 			add( new FormComponent( "javax.swing.JPasswordField" ) {
 				name: "passwordI"
 				"visible": false
+				addEvent( new FormEvent( "javax.swing.event.CaretListener", "caretUpdate", "fieldUpdateCheck", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 1 6"
 			} )
 			add( new FormComponent( "javax.swing.JButton" ) {
 				name: "button1"
 				"text": "Connect"
+				"enabled": false
+				"visible": false
 				addEvent( new FormEvent( "java.awt.event.MouseListener", "mouseClicked", "button1MouseClicked", true ) )
 			}, new FormLayoutConstraints( class net.miginfocom.layout.CC ) {
 				"value": "cell 0 7 2 1"

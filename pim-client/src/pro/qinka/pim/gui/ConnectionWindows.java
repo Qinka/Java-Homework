@@ -4,6 +4,7 @@ import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import net.miginfocom.swing.*;
 
 import pro.qinka.pim.collection.PIMBaseCollection;
@@ -42,7 +43,7 @@ public class ConnectionWindows extends JFrame {
 		break;
 	    }
 	    PIMBaseCollection pimc = cr.getCollection();
-	    JFrame jf = new MainWindows(pimc);
+	    JFrame jf = new MainWindows(pimc,textField1.getText());
 	    jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setVisible(false);
 	    jf.setVisible(true);
@@ -57,6 +58,20 @@ public class ConnectionWindows extends JFrame {
 	    passwordT.setVisible(isVis);
 	    passwordI.setVisible(isVis);
 	    this.pack();
+	}
+
+	private void fieldUpdateCheck(CaretEvent e) {
+	    boolean btEnable = textField1.getText().isEmpty() || connectionparam.getText().isEmpty();
+	    boolean dbOpt;
+	    if (comboBox1.getSelectedIndex() == 2)
+		dbOpt = usernameI.getText().isEmpty() || String.valueOf(passwordI.getPassword()).isEmpty();
+	    else dbOpt = false;
+	    boolean fn = !(dbOpt || btEnable);
+	    if (fn != button1.isEnabled()) {
+		button1.setEnabled(fn);
+		button1.setVisible(fn);
+		this.pack();
+	    }
 	}
 
 	private void initComponents() {
@@ -115,11 +130,17 @@ public class ConnectionWindows extends JFrame {
 		}));
 		comboBox1.addItemListener(e -> comboBox1ItemStateChanged(e));
 		contentPane.add(comboBox1, "cell 0 2");
+
+		//---- textField1 ----
+		textField1.addCaretListener(e -> fieldUpdateCheck(e));
 		contentPane.add(textField1, "cell 1 2");
 
 		//---- label2 ----
 		label2.setText("Connection Param");
 		contentPane.add(label2, "cell 0 3 2 1");
+
+		//---- connectionparam ----
+		connectionparam.addCaretListener(e -> fieldUpdateCheck(e));
 		contentPane.add(connectionparam, "cell 0 4 2 1");
 
 		//---- usernameT ----
@@ -134,14 +155,18 @@ public class ConnectionWindows extends JFrame {
 
 		//---- usernameI ----
 		usernameI.setVisible(false);
+		usernameI.addCaretListener(e -> fieldUpdateCheck(e));
 		contentPane.add(usernameI, "cell 0 6");
 
 		//---- passwordI ----
 		passwordI.setVisible(false);
+		passwordI.addCaretListener(e -> fieldUpdateCheck(e));
 		contentPane.add(passwordI, "cell 1 6");
 
 		//---- button1 ----
 		button1.setText("Connect");
+		button1.setEnabled(false);
+		button1.setVisible(false);
 		button1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
