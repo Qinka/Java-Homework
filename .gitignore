@@ -62,5 +62,5 @@ test
 
 
 *.lhs~
-*.jfd
-*.jfdproj
+#*.jfd
+#*.jfdproj
