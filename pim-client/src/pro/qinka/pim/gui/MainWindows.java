@@ -10,9 +10,11 @@ import javax.swing.*;
 import net.miginfocom.swing.*;
 
 import java.util.*;
+import java.util.stream.*;
+import java.util.function.*;
 
 import pro.qinka.pim.collection.*;
-import pro.qinka.pim.entity.PIMEntity;
+import pro.qinka.pim.entity.*;
 
 /**
  * @author John Lee
@@ -24,6 +26,7 @@ public class MainWindows extends JFrame {
 	own = __own;
 	diList = new ArrayList<DayItem>();
 	gcl = new GregorianCalendar();
+	changeListener = new HashSet<PIMCListener>();
 	initComponents();
     }
 
@@ -54,23 +57,80 @@ public class MainWindows extends JFrame {
 	
     }
 
-    private void pimcollectonPull(int i) {
+    private void pimcollectonChanged(int i) {
 	if (i == PIMCListener.PIMPULLED) {
-	    
+	    updateCal();
 	}
     }
 
-    private void preMonthMouseClicked(MouseEvent e) {
+    private void preMonthMouseClicked(AWTEvent e) {
 	// TODO add your code here
 	gcl.add(Calendar.MONTH, -1);
 	updateCal();
     }
 
-    private void nextMonthMouseClicked(MouseEvent e) {
+    private void nextMonthMouseClicked(AWTEvent e) {
 	// TODO add your code here
 	gcl.add(Calendar.MONTH, 1);
 	updateCal();
     }
+
+
+    private void disconnectClicked(AWTEvent e) {
+	JFrame jf = new ConnectionWindows();
+	jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	this.setVisible(false);
+	jf.setVisible(true);
+	this.dispose();
+    }
+    private void quitClicked(AWTEvent e) {
+	this.dispose();
+    }
+
+
+    private void invokePull() {
+	SwingWorker<Object,Void> invoke = new SwingWorker() {
+	    @Override
+	    protected Object doInBackground() {
+		if(bc instanceof PIMCollectionStored)
+		    ((PIMCollectionStored)bc).pull();
+		return new Object();
+	    }
+	    @Override
+	    protected void done() {
+		changePIMC(PIMCListener.PIMPULLED);
+	    }
+	    };
+	invoke.execute();
+    }
+    private void invokePush() {
+	SwingWorker<Object,Void> invoke = new SwingWorker() {
+	    @Override
+	    protected Object doInBackground() {
+		if(bc instanceof PIMCollectionStored)
+		    ((PIMCollectionStored)bc).push();
+		return new Object();
+	    }
+	    @Override
+	    protected void done() {
+		changePIMC(PIMCListener.PIMPUSHED);
+	    }
+	    };
+	invoke.execute();
+    }
+
+
+    private void listClicked(AWTEvent e) {
+	Vector<String> tmpNote = bc.stream().filter(pim -> pim instanceof PIMNote).map(pim -> (PIMNote) pim).map(pim -> "N " + pim.getContext()).collect(Collectors.toCollection(Vector<String>::new));
+	Vector<String> tmpCon = bc.stream().filter(pim -> pim instanceof PIMContact).map(pim -> (PIMContact) pim).map(pim -> "C " + pim.getFirstName() + " " + pim.getLastName() + "\n\temail " + pim.getEmail()).collect(Collectors.toCollection(Vector<String>::new));
+	tmpNote.addAll(tmpCon);
+	list1.setListData(tmpNote);
+    }
+
+    private void createClicked(AWTEvent e) {
+	
+    }
+    
 
     
 
@@ -83,6 +143,7 @@ public class MainWindows extends JFrame {
 	remoteLoadMenu = new JMenuItem();
 	operationMenu = new JMenu();
 	operationListMenu = new JMenuItem();
+	operationCreateMenu = new JMenuItem();
 	optNextMonMenu = new JMenuItem();
 	optPreMonMenu = new JMenuItem();
 	pimMenu = new JMenu();
@@ -101,7 +162,7 @@ public class MainWindows extends JFrame {
 	diList = new ArrayList<DayItem>();
 	scrollPane1 = new JScrollPane();
 	list1 = new JList();
-
+	
 	//======== this ========
 	setTitle("Personal Information Manager GUI");
 	setModalExclusionType(Dialog.ModalExclusionType.APPLICATION_EXCLUDE);
@@ -135,10 +196,22 @@ public class MainWindows extends JFrame {
 		pimMenu.setText("PIM");
 		//---- disConnectMenu ----
 		disConnectMenu.setText("Disconnect");
+		disConnectMenu.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    disconnectClicked(e);
+			}
+		    });
 		pimMenu.add(disConnectMenu);
 
 		//---- quitMenu ----
 		quitMenu.setText("Quit");
+		quitMenu.addActionListener(new ActionListener () {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    quitClicked(e);
+			}
+		    });
 		pimMenu.add(quitMenu);
 	    }
 	    menuBar1.add(pimMenu);
@@ -149,10 +222,23 @@ public class MainWindows extends JFrame {
 
 		//---- remoteSaveMenu ----
 		remoteSaveMenu.setText("Save");
+		remoteSaveMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    invokePush();
+			}
+		    });
+			    
 		remoteMenu.add(remoteSaveMenu);
 
 		//---- remoteLoadMenu ----
 		remoteLoadMenu.setText("Load");
+		remoteLoadMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    invokePull();
+			}
+		    });
 		remoteMenu.add(remoteLoadMenu);
 	    }
 	    menuBar1.add(remoteMenu);
@@ -163,14 +249,31 @@ public class MainWindows extends JFrame {
 
 		//---- operationListMenu ----
 		operationListMenu.setText("List");
+		operationListMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    listClicked(e);
+			}
+		    });
 		operationMenu.add(operationListMenu);
+
+		//---- operationcreatemenu ----
+		operationCreateMenu.setText("Create");
+		operationCreateMenu.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			    createClicked(e);
+			}
+		    });
+		operationMenu.add(operationCreateMenu);
+		    
 		operationMenu.addSeparator();
 
 		//---- optNextMonMenu ----
 		optNextMonMenu.setText("next month");
-		optNextMonMenu.addMouseListener(new MouseAdapter() {
+		optNextMonMenu.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 			    nextMonthMouseClicked(e);
 			}
 		    });
@@ -178,9 +281,9 @@ public class MainWindows extends JFrame {
 
 		//---- optPreMonMenu ----
 		optPreMonMenu.setText("previous month");
-		optPreMonMenu.addMouseListener(new MouseAdapter() {
+		optPreMonMenu.addActionListener(new ActionListener() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void actionPerformed(ActionEvent e) {
 			    preMonthMouseClicked(e);
 			}
 		    });
@@ -204,7 +307,7 @@ public class MainWindows extends JFrame {
 	yearmonth.setHorizontalAlignment(SwingConstants.CENTER);
 	yearmonth.setFont(yearmonth.getFont().deriveFont(yearmonth.getFont().getStyle() | Font.BOLD, yearmonth.getFont().getSize() + 8f));
 	contentPane.add(yearmonth, "cell 1 0 5 1");
-
+		    
 	//---- nextMonth ----
 	nextMonth.setText(">");
 	nextMonth.addMouseListener(new MouseAdapter() {
@@ -256,6 +359,15 @@ public class MainWindows extends JFrame {
 	satLab.setText("Sat");
 	satLab.setVisible(false);
 	contentPane.add(satLab, "cell 6 1");
+
+
+	//--- change listener
+	this.addPIMCChangeListener(new PIMCListener() {
+		@Override
+		public void collectionUpdate(int i) {
+		    pimcollectonChanged(i);
+		}
+	    });
 	
 	for(int j = 2;j<8;j++)
 	    for(int i = 0;i<7;i++) {
@@ -270,18 +382,13 @@ public class MainWindows extends JFrame {
 		    });
 		diList.add(item);
 		contentPane.add(item,"cell "+String.valueOf(i)+" "+String.valueOf(j));
-	    }	
-	if(bc instanceof PIMCollectionStored) {
-	    PIMCollectionStored sc = (PIMCollectionStored)bc;
-	    sc.pull();
-	}
-	updateCal();
-
+	    }
 	//======== scrollPane1 ========
 	{
 	    scrollPane1.setViewportView(list1);
 	}
 	contentPane.add(scrollPane1, "cell 0 8 7 1");
+	invokePull();
 	pack();
 	setLocationRelativeTo(getOwner());
 	// JFormDesigner - End of component initialization  //GEN-END:initComponents
@@ -330,6 +437,7 @@ public class MainWindows extends JFrame {
     private JMenuItem remoteLoadMenu;
     private JMenu operationMenu;
     private JMenuItem operationListMenu;
+    private JMenuItem operationCreateMenu;
     private JMenuItem optNextMonMenu;
     private JMenuItem optPreMonMenu;
     private JMenu pimMenu;
@@ -357,10 +465,13 @@ public class MainWindows extends JFrame {
 	    i.collectionUpdate(state);
     }
 
-    class PIMCListener implements EventListener {
+    public void addPIMCChangeListener(PIMCListener pl){
+	changeListener.add(pl);
+    }
+
+    interface PIMCListener extends EventListener {
 	public static final int PIMPUSHED = 0;
 	public static final int PIMPULLED = 1;
-	public void collectionUpdate(int i) {
-	}
+	public void collectionUpdate(int i);
     }
 }

@@ -42,19 +42,29 @@ public class DayItem extends JPanel {
     }
     public void cleanItem() {
 	items.clear();
-	Vector<String> tmp = items.stream().map(pim -> pim.toString()).collect(Collectors.toCollection(Vector<String>::new));
-	list1.setListData(tmp);
-	this.updateUI();
+	updateList();
     }
     public void addItem(PIMEntity p) {
 	if(p != null) {
 	    items.add(p);
-	    Vector<String> tmp = items.stream().map(pim -> pim.toString()).collect(Collectors.toCollection(Vector<String>::new));
-	    list1.setListData(tmp);
-	    this.updateUI();
+	    updateList();
 	}
     }
-    
+
+    private void updateList() {
+	Vector<String> tmply = items.stream().map(pim -> display(pim)).collect(Collectors.toCollection(Vector<String>::new));
+	list1.setListData(tmply);
+	this.updateUI();
+    }
+
+    protected String display(PIMEntity e) {
+	StringBuilder sbr = new StringBuilder();
+	sbr.append(e.__getType().toUpperCase().substring(0,1));
+	sbr.append(" ");
+	if (e instanceof PIMAppointment) sbr.append(((PIMAppointment)e).getDescription());
+	if (e instanceof PIMTodo) sbr.append(((PIMTodo)e).getContext());
+	return sbr.toString();	
+    }
 
     private void initComponents() {
 	// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
@@ -64,13 +74,6 @@ public class DayItem extends JPanel {
 	list1 = new JList();
 
 	//======== this ========
-
-	// JFormDesigner evaluation mark
-	/*setBorder(new javax.swing.border.CompoundBorder(
-		new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-			"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-			javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-			java.awt.Color.red), getBorder())); addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});*/
 
 	setLayout(new MigLayout(
 		"hidemode 3",
@@ -88,6 +91,7 @@ public class DayItem extends JPanel {
 	//======== scrollPane1 ========
 	{
 		scrollPane1.setViewportView(list1);
+		scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 	add(scrollPane1, "cell 0 1");
 	// JFormDesigner - End of component initialization  //GEN-END:initComponents
