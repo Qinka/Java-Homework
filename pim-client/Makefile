@@ -29,6 +29,7 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/gui/ConnectSelect.class \
 	src/pro/qinka/pim/gui/DayItem.class \
 	src/pro/qinka/pim/gui/MainWindows.class \
+	src/pro/qinka/pim/gui/ShowItem.class \
 	src/Test.class
 
 %.class: %.java $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR)

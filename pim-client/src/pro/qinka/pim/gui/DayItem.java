@@ -30,6 +30,12 @@ public class DayItem extends JPanel {
 	scrollPane1.setVisible(b);
     }
     private PIMCollection items;
+
+    private void itemClicked(AWTEvent e) {
+	PIMEntity sel = items.get(list1.getSelectedIndex());
+	new ShowItem(sel).setVisible(true);
+    }
+
     
     public String getDays() {
 	return label1.getText();
@@ -87,6 +93,14 @@ public class DayItem extends JPanel {
 	label1.setFont(label1.getFont().deriveFont(label1.getFont().getStyle() | Font.BOLD, label1.getFont().getSize() + 5f));
 	label1.setHorizontalAlignment(SwingConstants.TRAILING);
 	add(label1, "cell 0 0");
+
+	// -- list1 --
+	list1.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		    itemClicked(e);
+		}
+	    });
 
 	//======== scrollPane1 ========
 	{
