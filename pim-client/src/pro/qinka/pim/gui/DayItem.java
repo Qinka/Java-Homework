@@ -1,6 +1,7 @@
 package pro.qinka.pim.gui;
 
 import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
 import net.miginfocom.swing.*;
 
