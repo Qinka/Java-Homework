@@ -14,7 +14,7 @@ import pro.qinka.pim.entity.*;
  * The basic collection interface
  *
  */
-public interface PIMBaseCollection extends Collection<PIMEntity>
+public interface PIMBaseCollection extends Collection<PIMEntity>, List<PIMEntity>
 {
     /**
      * The method to get all the notes

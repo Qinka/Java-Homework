@@ -9,6 +9,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import net.miginfocom.swing.*;
 
+import java.lang.*;
 import java.util.*;
 import java.util.stream.*;
 import java.util.function.*;
@@ -58,9 +59,7 @@ public class MainWindows extends JFrame {
     }
 
     private void pimcollectonChanged(int i) {
-	if (i == PIMCListener.PIMPULLED) {
 	    updateCal();
-	}
     }
 
     private void preMonthMouseClicked(AWTEvent e) {
@@ -122,13 +121,29 @@ public class MainWindows extends JFrame {
 
     private void listClicked(AWTEvent e) {
 	Vector<String> tmpNote = bc.stream().filter(pim -> pim instanceof PIMNote).map(pim -> (PIMNote) pim).map(pim -> "N " + pim.getContext()).collect(Collectors.toCollection(Vector<String>::new));
+	__base = tmpNote.size();
 	Vector<String> tmpCon = bc.stream().filter(pim -> pim instanceof PIMContact).map(pim -> (PIMContact) pim).map(pim -> "C " + pim.getFirstName() + " " + pim.getLastName() + "\n\temail " + pim.getEmail()).collect(Collectors.toCollection(Vector<String>::new));
 	tmpNote.addAll(tmpCon);
 	list1.setListData(tmpNote);
     }
 
+    private void itemClicked(AWTEvent e) {
+	int index = list1.getSelectedIndex();
+	if (index != -1) {
+	    PIMEntity sel = null;
+	    if (index >= __base) {
+		index -= __base;
+		sel = bc.getContacts().get(index);
+	    }
+	    else
+	        sel = bc.getNotes().get(index);		
+	    if (sel != null)
+		new ShowItem(sel).setVisible(true);
+	}
+    }
+    
     private void createClicked(AWTEvent e) {
-	
+	new AddItem(bc,own,i -> { changePIMC(i.intValue());return i;}).setVisible(true);
     }
     
 
@@ -383,9 +398,18 @@ public class MainWindows extends JFrame {
 		diList.add(item);
 		contentPane.add(item,"cell "+String.valueOf(i)+" "+String.valueOf(j));
 	    }
+	// -- list1 --
+	list1.addMouseListener(new MouseAdapter() {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+		    itemClicked(e);
+		}
+	    });
+
 	//======== scrollPane1 ========
 	{
-	    scrollPane1.setViewportView(list1);
+		scrollPane1.setViewportView(list1);
+		scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 	contentPane.add(scrollPane1, "cell 0 8 7 1");
 	invokePull();
@@ -455,7 +479,7 @@ public class MainWindows extends JFrame {
     private JLabel satLab;
     private JScrollPane scrollPane1;
     private JList list1;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+    private int __base;
 
     PIMBaseCollection bc;
     private HashSet<PIMCListener> changeListener;

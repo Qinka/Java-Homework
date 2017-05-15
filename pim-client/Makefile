@@ -24,6 +24,7 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/entity/PIMEntityIC.class \
 	src/pro/qinka/pim/entity/PIMNote.class \
 	src/pro/qinka/pim/entity/PIMTodo.class \
+	src/pro/qinka/pim/gui/AddItem.class \
 	src/pro/qinka/pim/gui/ConnectionWindows.class \
 	src/pro/qinka/pim/gui/Connector.class \
 	src/pro/qinka/pim/gui/ConnectSelect.class \
