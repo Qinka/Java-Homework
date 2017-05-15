@@ -33,8 +33,12 @@ public class DayItem extends JPanel {
     private PIMCollection items;
 
     private void itemClicked(AWTEvent e) {
-	PIMEntity sel = items.get(list1.getSelectedIndex());
-	new ShowItem(sel).setVisible(true);
+	int index = list1.getSelectedIndex();
+	if (index != -1) {
+	    PIMEntity sel = items.get(index);
+	    if (sel != null)
+		new ShowItem(sel).setVisible(true);
+	}
     }
 
     

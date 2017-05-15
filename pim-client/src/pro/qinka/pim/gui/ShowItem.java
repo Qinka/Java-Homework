@@ -203,6 +203,7 @@ public class ShowItem extends JDialog {
 		    // ---- todo ----
 		    contextInfo.put("todo",new JLabel());
 		    contextInfo.get("todo").setText("Todo");
+		    contextInfo.get("todo").setHorizontalAlignment(SwingConstants.RIGHT);
 		    contentPanel.add(contextInfo.get("todo"),"cell 0  2");
 		    // ---- todoC ----
 		    contextInfo.put("todoC",new JLabel());
@@ -212,6 +213,7 @@ public class ShowItem extends JDialog {
 		    // ---- date ----
 		    contextInfo.put("date",new JLabel());
 		    contextInfo.get("date").setText("Date");
+		    contextInfo.get("date").setHorizontalAlignment(SwingConstants.RIGHT);
 		    contentPanel.add(contextInfo.get("date"),"cell 0  3");
 		    // ---- dateC ----
 		    contextInfo.put("dateC",new JLabel());
