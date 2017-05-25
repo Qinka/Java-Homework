@@ -7,6 +7,15 @@ import pro.qinka.pim.collection.db.*;
 import pro.qinka.pim.collection.io.*;
 import pro.qinka.pim.collection.http.*;
 
+/**
+ * ConnectSelect
+ * @author Qinka me@qinka.pro qinka@live.com 李约瀚 14130140331
+ * @license GPL3
+ * @version 0.2.0.0
+ *
+ * Select the connector of the Manager
+ */
+
 class ConnectSelect implements Connector {
     public PIMBaseCollection getCollection() {
 	return new PIMCollection();

@@ -12,14 +12,13 @@ import pro.qinka.pim.entity.*;
 import pro.qinka.pim.collection.*;
 
 
-/*
- * Created by JFormDesigner on Sun May 14 15:28:02 CST 2017
- */
-
-
-
 /**
- * @author John Lee
+ * AddItem
+ * @author Qinka me@qinka.pro qinka@live.com 李约瀚 14130140331
+ * @license GPL3
+ * @version 0.2.0.0
+ *
+ * Add the items.
  */
 public class AddItem extends JDialog {
     public AddItem(PIMBaseCollection _bc,String _o,Function<Integer,Integer> _change) {
@@ -121,8 +120,6 @@ public class AddItem extends JDialog {
     }
 
     private void initComponents() {
-	// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-	// Generated using JFormDesigner Evaluation license - John Lee
 	dialogPane = new JPanel();
 	contentPanel = new JPanel();
 	type = new JLabel();

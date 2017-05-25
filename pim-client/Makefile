@@ -8,7 +8,8 @@ MIGLAYOUT_JAR=miglayout-$(MIGLAYOUT_VERSION)-swing.jar
 JARS=$(PATH_SPILT)$(GSON_JAR)$(PATH_SPILT)$(PGJDBC_JAR)$(PATH_SPILT)$(MIGLAYOUT_JAR)
 SOURCE_DIR=./src
 
-all:    src/pro/qinka/pim/PIMManager.class \
+all:    src/pro/qinka/pim/PIMGUI.class \
+	src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/collection/PIMBaseCollection.class \
 	src/pro/qinka/pim/collection/PIMCollection.class \
 	src/pro/qinka/pim/collection/PIMCollectionStored.class \
@@ -30,8 +31,7 @@ all:    src/pro/qinka/pim/PIMManager.class \
 	src/pro/qinka/pim/gui/ConnectSelect.class \
 	src/pro/qinka/pim/gui/DayItem.class \
 	src/pro/qinka/pim/gui/MainWindows.class \
-	src/pro/qinka/pim/gui/ShowItem.class \
-	src/Test.class
+	src/pro/qinka/pim/gui/ShowItem.class
 
 %.class: %.java $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR)
 	javac -g -encoding utf8 -cp "$(SOURCE_DIR)$(JARS)" $<
@@ -39,11 +39,13 @@ all:    src/pro/qinka/pim/PIMManager.class \
 clean:
 	@find . | grep -E '*.class' | awk "{print \"rm -rf \'\"\$$0\"\'\"}" | sh
 deepclean: clean
-	@find . | grep -E '*/'$(PGJDBC_JAR) | awk '{print "rm -rf "$0}' | sh
-	@find . | grep -E '*/'$(PGJDBC_JAR) | awk '{print "rm -rf "$0}' | sh
+	@find . | grep -E '*.jar' | awk "{print \"rm -rf \'\"\$$0\"\'\"}" | sh
 
 run: $(GSON_JAR)  $(PGJDBC_JAR) $(MIGLAYOUT_JAR) all
 	java -cp '$(SOURCE_DIR)$(JARS)' pro.qinka.pim.PIMManager $(ARGS)
+
+rungui: $(GSON_JAR)  $(PGJDBC_JAR) $(MIGLAYOUT_JAR) all
+	java -cp '$(SOURCE_DIR)$(JARS)' pro.qinka.pim.PIMGUI $(ARGS)
 
 debug: $(GSON_JAR) $(PGJDBC_JAR) $(MIGLAYOUT_JAR) all
 	jdb -classpath '$(SOURCE_DIR)$(JARS)' $(ARGS)

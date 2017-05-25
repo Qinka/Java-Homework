@@ -10,16 +10,17 @@ import java.util.stream.*;
 import java.util.function.*;
 import pro.qinka.pim.entity.*;
 import pro.qinka.pim.collection.*;
-/*
- * Created by JFormDesigner on Tue May 09 21:37:53 CST 2017
- */
-
-
-
+    
 /**
- * @author John Lee
+ * DayItem
+ *
+ * @author Qinka me@qinka.pro qinka@live.com 李约瀚 14130140331
+ * @license GPL3
+ * @version 0.2.0.10
+ *
+ * The panel to show one's items.
  */
-public class DayItem extends JPanel {
+    public class DayItem extends JPanel {
     public DayItem() {
 	items = new PIMCollection();
 	initComponents();
@@ -40,7 +41,6 @@ public class DayItem extends JPanel {
 		new ShowItem(sel).setVisible(true);
 	}
     }
-
     
     public String getDays() {
 	return label1.getText();
@@ -78,21 +78,18 @@ public class DayItem extends JPanel {
     }
 
     private void initComponents() {
-	// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-	// Generated using JFormDesigner Evaluation license - John Lee
 	label1 = new JLabel();
 	scrollPane1 = new JScrollPane();
 	list1 = new JList();
 
 	//======== this ========
-
 	setLayout(new MigLayout(
-		"hidemode 3",
-		// columns
-		"[100,grow,fill]",
-		// rows
-		"[2,grow]0" +
-		"[30,grow]0"));
+				"hidemode 3",
+				// columns
+				"[100,grow,fill]",
+				// rows
+				"[2,grow]0" +
+				"[30,grow]0"));
 
 	//---- label1 ----
 	label1.setFont(label1.getFont().deriveFont(label1.getFont().getStyle() | Font.BOLD, label1.getFont().getSize() + 5f));
@@ -109,17 +106,12 @@ public class DayItem extends JPanel {
 
 	//======== scrollPane1 ========
 	{
-		scrollPane1.setViewportView(list1);
-		scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	    scrollPane1.setViewportView(list1);
+	    scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 	add(scrollPane1, "cell 0 1");
-	// JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - John Lee
-	private JLabel label1;
-	private JScrollPane scrollPane1;
-	private JList<String> list1;
-    // JFormDesigner - End of variables declaration  //GEN-END:variables
+    private JLabel label1;
+    private JScrollPane scrollPane1;
+    private JList<String> list1;
 }

@@ -1,7 +1,3 @@
-/*
- * Created by JFormDesigner on Tue May 09 21:43:43 CST 2017
- */
-
 package pro.qinka.pim.gui;
 
 import java.awt.*;
@@ -18,7 +14,13 @@ import pro.qinka.pim.collection.*;
 import pro.qinka.pim.entity.*;
 
 /**
- * @author John Lee
+ * Main Window
+ * 
+ * @author Qinka me@qinka.pro qinka@live.com 李约瀚 14130140331
+ * @license GPL3
+ * @version 0.2.0.10
+ *
+ * The main windows of the GUI part.
  */
 public class MainWindows extends JFrame {
     public MainWindows(PIMBaseCollection _bc,String __own) {
@@ -35,15 +37,13 @@ public class MainWindows extends JFrame {
     private String own;
     private int __week_delta;
     
-    private GregorianCalendar gcl; // = new GregorianCalendar();
+    private GregorianCalendar gcl;
     
 
-    private void diMouseClicked(int index,MouseEvent e) {
-	// TODO add your code here
+	private void diMouseClicked(int index,MouseEvent e) {
     }
 
     private void thisWindowsReady(WindowEvent e) {
-	// TODO add your code here
 	if(bc instanceof PIMCollectionStored) {
 	    PIMCollectionStored sc = (PIMCollectionStored)bc;
 	    if(e.getNewState() == WindowEvent.WINDOW_OPENED) {
@@ -59,17 +59,15 @@ public class MainWindows extends JFrame {
     }
 
     private void pimcollectonChanged(int i) {
-	    updateCal();
+	updateCal();
     }
 
     private void preMonthMouseClicked(AWTEvent e) {
-	// TODO add your code here
 	gcl.add(Calendar.MONTH, -1);
 	updateCal();
     }
 
     private void nextMonthMouseClicked(AWTEvent e) {
-	// TODO add your code here
 	gcl.add(Calendar.MONTH, 1);
 	updateCal();
     }
@@ -86,34 +84,33 @@ public class MainWindows extends JFrame {
 	this.dispose();
     }
 
-
     private void invokePull() {
 	SwingWorker<Object,Void> invoke = new SwingWorker() {
-	    @Override
-	    protected Object doInBackground() {
-		if(bc instanceof PIMCollectionStored)
-		    ((PIMCollectionStored)bc).pull();
-		return new Object();
-	    }
-	    @Override
-	    protected void done() {
-		changePIMC(PIMCListener.PIMPULLED);
-	    }
+		@Override
+		protected Object doInBackground() {
+		    if(bc instanceof PIMCollectionStored)
+			((PIMCollectionStored)bc).pull();
+		    return new Object();
+		}
+		@Override
+		protected void done() {
+		    changePIMC(PIMCListener.PIMPULLED);
+		}
 	    };
 	invoke.execute();
     }
     private void invokePush() {
 	SwingWorker<Object,Void> invoke = new SwingWorker() {
-	    @Override
-	    protected Object doInBackground() {
-		if(bc instanceof PIMCollectionStored)
-		    ((PIMCollectionStored)bc).push();
-		return new Object();
-	    }
-	    @Override
-	    protected void done() {
-		changePIMC(PIMCListener.PIMPUSHED);
-	    }
+		@Override
+		protected Object doInBackground() {
+		    if(bc instanceof PIMCollectionStored)
+			((PIMCollectionStored)bc).push();
+		    return new Object();
+		}
+		@Override
+		protected void done() {
+		    changePIMC(PIMCListener.PIMPUSHED);
+		}
 	    };
 	invoke.execute();
     }
@@ -150,8 +147,6 @@ public class MainWindows extends JFrame {
     
 
     private void initComponents() {
-	// JFormDesigner - Component initialization - DO NOT MODIFY  //GEN-BEGIN:initComponents
-	// Generated using JFormDesigner Evaluation license - John Lee
 	menuBar1 = new JMenuBar();
 	remoteMenu = new JMenu();
 	remoteSaveMenu = new JMenuItem();
@@ -408,14 +403,13 @@ public class MainWindows extends JFrame {
 
 	//======== scrollPane1 ========
 	{
-		scrollPane1.setViewportView(list1);
-		scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+	    scrollPane1.setViewportView(list1);
+	    scrollPane1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 	}
 	contentPane.add(scrollPane1, "cell 0 8 7 1");
 	invokePull();
 	pack();
 	setLocationRelativeTo(getOwner());
-	// JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
 	
 
@@ -452,9 +446,6 @@ public class MainWindows extends JFrame {
 	this.pack();
     }
     
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-    // Generated using JFormDesigner Evaluation license - John Lee
     private JMenuBar menuBar1;
     private JMenu remoteMenu;
     private JMenuItem remoteSaveMenu;

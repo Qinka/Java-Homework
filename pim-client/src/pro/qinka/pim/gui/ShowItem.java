@@ -9,9 +9,13 @@ import pro.qinka.pim.entity.*;
 import java.lang.*;
 import java.util.*;
 
-
 /**
- * @author John Lee
+ * Show Item
+ * @author Qinka me@qinka.pro qinka@live.com 李约瀚 14130140331
+ * @licnese GPL3
+ * @version 0.2.0.0
+ * 
+ * Show the items
  */
 public class ShowItem extends JDialog {
     public ShowItem(PIMEntity _item) {
@@ -22,8 +26,7 @@ public class ShowItem extends JDialog {
 
     private void okButtonClicked(AWTEvent e) {
 	this.dispose();
-    }
-	
+    }	
     
     private void initComponents() {
 	dialogPane = new JPanel();
@@ -31,7 +34,6 @@ public class ShowItem extends JDialog {
 	contextInfo = new HashMap();
 	buttonBar = new JPanel();
 	okButton = new JButton();
-
 
 	//======== this ========
 	Container contentPane = getContentPane();
@@ -244,21 +246,15 @@ public class ShowItem extends JDialog {
 		buttonBar.add(okButton, "cell 0 0");
 	    }
 	    dialogPane.add(buttonBar, BorderLayout.SOUTH);
-	}
-
-	
+	}	
 	contentPane.add(dialogPane, BorderLayout.CENTER);
 	pack();
 	setLocationRelativeTo(getOwner());
-	// JFormDesigner - End of component initialization  //GEN-END:initComponents
     }
-
-    // JFormDesigner - Variables declaration - DO NOT MODIFY  //GEN-BEGIN:variables
-	// Generated using JFormDesigner Evaluation license - John Lee
-	private JPanel dialogPane;
-	private JPanel contentPanel;
-	private HashMap<String,JLabel> contextInfo;
-	private JPanel buttonBar;
-	private JButton okButton;
-	private PIMEntity item;
-    }
+    private JPanel dialogPane;
+    private JPanel contentPanel;
+    private HashMap<String,JLabel> contextInfo;
+    private JPanel buttonBar;
+    private JButton okButton;
+    private PIMEntity item;
+}
