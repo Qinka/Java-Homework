@@ -17,11 +17,16 @@ import pro.qinka.pim.collection.http.*;
  */
 
 class ConnectSelect implements Connector {
+    /**
+     * The method to return a new or connected collection.
+     */
     public PIMBaseCollection getCollection() {
 	return new PIMCollection();
     }
 	
-    
+    /**
+     * The sub-class for connecting with database.
+     */
     public static class DatabaseConnect implements Connector {
 	private final String _url;
 	private final String _user;
@@ -35,6 +40,9 @@ class ConnectSelect implements Connector {
 	    return new PIMDBCollection(_url,_user,_passwd);
 	}
     }
+    /**
+     * The sub-class for connecting with backend.
+     */
     public static class BackendConnect implements Connector {
 	private final String _url;
 	public BackendConnect(String u) {
@@ -44,6 +52,9 @@ class ConnectSelect implements Connector {
 	    return new PIMHTTPCollection(_url);
 	}
     }
+    /**
+     * The sub-class for connecting with file.
+     */
     public static class FileConnect implements Connector {
 	private final String _file_path;
 	public FileConnect(String fp) {

@@ -21,6 +21,13 @@ import pro.qinka.pim.collection.*;
  * Add the items.
  */
 public class AddItem extends JDialog {
+    /**
+     * The constructor of this Class
+     * the dialog to add the item.
+     * @param _bc the PIMBaseCollection where the item will be added to.
+     * @param _o the own of the item
+     * @param _change the lambda for state changing
+     */
     public AddItem(PIMBaseCollection _bc,String _o,Function<Integer,Integer> _change) {
 	super();
 	bc = _bc;
@@ -29,6 +36,10 @@ public class AddItem extends JDialog {
 	initComponents();
     }
 
+    /**
+     * The method of the event when type of the item changed
+     * @param e event of ItemEvent
+     */
     private void typeStateChanged(ItemEvent e) {
 	String sel = (String)(typeC.getSelectedItem());
 	if(sel.equals("appointment")) {
@@ -62,6 +73,10 @@ public class AddItem extends JDialog {
 	a3C.setVisible(!a3.getText().isEmpty());
     }
 
+    /**
+     * The method of the button when ok-button clicked.
+     * @param e the event of the MouseEvent
+     */
     private void okButtonMouseClicked(MouseEvent e) {
 	if(okButton.isEnabled()) {
 	    String sel = (String)(typeC.getSelectedItem());
@@ -106,6 +121,10 @@ public class AddItem extends JDialog {
 	}
     }
 
+    /**
+     * The method to check the fields, for the event when fields' context changed.
+     * @param e the event of Caretevent
+     */
     private void fieldUpdateCheck(CaretEvent e) {
 	boolean p  = priority.getText().isEmpty() == priorityC.getText().isEmpty();
 	boolean c1 = a1.getText().isEmpty() == a1C.getText().isEmpty();
@@ -113,12 +132,18 @@ public class AddItem extends JDialog {
 	boolean c3 = a3.getText().isEmpty() == a3C.getText().isEmpty();
 	okButton.setEnabled(p && c1 && c2 && c3);
     }
-    
+
+    /**
+     * The method of the cancel button, when the button clicked.
+     */
     private void cancelButtonMouseClicked(MouseEvent e) {
 	this.setVisible(false);
 	this.dispose();
     }
 
+    /**
+     * The method to initate the dialog.
+     */
     private void initComponents() {
 	dialogPane = new JPanel();
 	contentPanel = new JPanel();

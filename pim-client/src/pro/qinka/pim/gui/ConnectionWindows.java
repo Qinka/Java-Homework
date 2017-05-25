@@ -19,10 +19,16 @@ import pro.qinka.pim.collection.PIMBaseCollection;
  * The windows where we choose and connect the backend, database, or just open a file.
  */
 public class ConnectionWindows extends JFrame {
+    /**
+     * The constructor of ConnectionWindows
+     */
     public ConnectionWindows() {
 	initComponents();
     }
 
+    /**
+     * The method of button clicked.
+     */
     private void button1MouseClicked(MouseEvent e) {
 	Connector cr = null;
 	switch(comboBox1.getSelectedIndex()){
@@ -49,6 +55,9 @@ public class ConnectionWindows extends JFrame {
 	this.dispose();
     }
 
+    /**
+     * The method about the combobox's context changed.
+     */
     private void comboBox1ItemStateChanged(ItemEvent e) {
 	boolean isVis = comboBox1.getSelectedItem().equals("database");
 	usernameT.setVisible(isVis);
@@ -58,6 +67,9 @@ public class ConnectionWindows extends JFrame {
 	this.pack();
     }
 
+    /**
+     * The method about to check the fileds' context.
+     */
     private void fieldUpdateCheck(CaretEvent e) {
 	boolean btEnable = textField1.getText().isEmpty() || connectionparam.getText().isEmpty();
 	boolean dbOpt;
@@ -72,6 +84,9 @@ public class ConnectionWindows extends JFrame {
 	}
     }
 
+    /**
+     * The method to initate this window.
+     */
     private void initComponents() {
 	label3 = new JLabel();
 	label4 = new JLabel();
