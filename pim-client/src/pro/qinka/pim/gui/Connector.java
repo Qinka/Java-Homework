@@ -12,5 +12,9 @@ import pro.qinka.pim.collection.PIMBaseCollection;
  */
 
 public interface Connector {
+    /**
+     * The method which will pull the collection from the remote or the file.
+     * @return This method will return the collection of the remote.
+     */
     public PIMBaseCollection getCollection();
 }

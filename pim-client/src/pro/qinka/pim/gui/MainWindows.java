@@ -23,6 +23,11 @@ import pro.qinka.pim.entity.*;
  * The main windows of the GUI part.
  */
 public class MainWindows extends JFrame {
+    /**
+     * the constructor of the MainWindows
+     * @param _bc the basic collection that means just a collection, instanced of PIMBaseCollection is fine.
+     * @param __own the owner of the items which will be display, and this field will be used in adding.
+     */
     public MainWindows(PIMBaseCollection _bc,String __own) {
 	super();
 	bc = _bc;
@@ -40,9 +45,9 @@ public class MainWindows extends JFrame {
     private GregorianCalendar gcl;
     
 
-	private void diMouseClicked(int index,MouseEvent e) {
+    private void diMouseClicked(int index,MouseEvent e) {
     }
-
+    
     private void thisWindowsReady(WindowEvent e) {
 	if(bc instanceof PIMCollectionStored) {
 	    PIMCollectionStored sc = (PIMCollectionStored)bc;
