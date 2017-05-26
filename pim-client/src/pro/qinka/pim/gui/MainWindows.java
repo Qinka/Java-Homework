@@ -42,12 +42,21 @@ public class MainWindows extends JFrame {
     private String own;
     private int __week_delta;
     
-    private GregorianCalendar gcl;
+    private GregorianCalendar gc;
     
-
+    /**
+      * Empty event of one mouse clicked.
+      * @param index the event id of which item was clicked.
+      * ＠param e the event of the mouse.
+      */
     private void diMouseClicked(int index,MouseEvent e) {
     }
     
+    /**
+    * the callback of the event when the windows is ready.
+    * It will send request to load the collection from the remote backend, database, or the file.
+    * @param e the windows event
+    */
     private void thisWindowsReady(WindowEvent e) {
 	if(bc instanceof PIMCollectionStored) {
 	    PIMCollectionStored sc = (PIMCollectionStored)bc;
@@ -63,21 +72,36 @@ public class MainWindows extends JFrame {
 	
     }
 
+ /**
+ * The event when the pim's collection changed.
+ * @param i the id of the event such as the pull or  push. Details can be found at the following definition of the Adapter.
+ */
     private void pimcollectonChanged(int i) {
 	updateCal();
     }
 
+   /**
+   * the method of the event when the button, which is used to jump to the previous month, was clicked.
+   * @param e the AWT event.
+   */
     private void preMonthMouseClicked(AWTEvent e) {
 	gcl.add(Calendar.MONTH, -1);
 	updateCal();
     }
 
+/**
+* the method of the event when the button, which is used to jump yo the next month, was clicked.
+* @param e the AWT event.
+*/
     private void nextMonthMouseClicked(AWTEvent e) {
 	gcl.add(Calendar.MONTH, 1);
 	updateCal();
     }
 
-
+/**
+* The method of action when the connection between the remote and the client will be disconnected.
+* @param e AWT event.
+*/
     private void disconnectClicked(AWTEvent e) {
 	JFrame jf = new ConnectionWindows();
 	jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -89,6 +113,9 @@ public class MainWindows extends JFrame {
 	this.dispose();
     }
 
+/**
+* the method for when the pull-action need to be done, in an asynchronous way.
+*/
     private void invokePull() {
 	SwingWorker<Object,Void> invoke = new SwingWorker() {
 		@Override
@@ -104,6 +131,9 @@ public class MainWindows extends JFrame {
 	    };
 	invoke.execute();
     }
+    /**
+    * the method for when the pull-action need to be done, in an asynchronous way.
+    */
     private void invokePush() {
 	SwingWorker<Object,Void> invoke = new SwingWorker() {
 		@Override
@@ -120,7 +150,10 @@ public class MainWindows extends JFrame {
 	invoke.execute();
     }
 
-
+/**
+* the method when the list clicked
+* @param e AWT event
+*/
     private void listClicked(AWTEvent e) {
 	Vector<String> tmpNote = bc.stream().filter(pim -> pim instanceof PIMNote).map(pim -> (PIMNote) pim).map(pim -> "N " + pim.getContext()).collect(Collectors.toCollection(Vector<String>::new));
 	__base = tmpNote.size();
@@ -129,6 +162,10 @@ public class MainWindows extends JFrame {
 	list1.setListData(tmpNote);
     }
 
+/**
+* the method of the action when the item clicked.
+* @param e  AWT event
+*/
     private void itemClicked(AWTEvent e) {
 	int index = list1.getSelectedIndex();
 	if (index != -1) {
@@ -144,13 +181,17 @@ public class MainWindows extends JFrame {
 	}
     }
     
+    /**
+    * The method of the event when there is an item to be create and the buton or menu was clicked.
+    * @param e AWT event
+    */
     private void createClicked(AWTEvent e) {
 	new AddItem(bc,own,i -> { changePIMC(i.intValue());return i;}).setVisible(true);
     }
     
-
-    
-
+    /**
+    * the initial method of the windows
+    */
     private void initComponents() {
 	menuBar1 = new JMenuBar();
 	remoteMenu = new JMenu();
