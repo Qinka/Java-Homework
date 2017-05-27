@@ -1,0 +1,48 @@
+\documentclass{article}
+
+% xeCJK
+\usepackage{xeCJK}
+\setCJKmainfont{SimSun}
+
+%listings
+\usepackage{breaklines,numbers=left}
+
+% hypper link
+\usepackage{hyperref}
+
+\title{Java Homework Report for Final Project}
+\author{李约瀚 \\ 14130140331 \\ Qinka \\ qinka@live.com \\ me@qinka.pro}
+
+\begin{document}
+\maketitle
+\newpage
+
+{\Huge \textbf{Copyleft (C) 2017}}
+\par
+{\Huge \textbf{GPL 3}}
+\newpage
+
+\tableofcontents
+\newpage
+
+\section{Design}
+\label{sec:design}
+
+For the Person Information Manager, there are three part: entity, collection, and GUI.
+
+For the first part, entity, it is about the items of the personal informations. The informations are divided into four kinds: appointment, contact, note, and todo.
+It was implemented in the homework 2. All there kinds of informations will be stored in file with JSON.
+
+For the second part, collection, it is about how the items are stored, and interact with the remote storage.
+There are three kinds of the ``remote'' storage: local file, database, web application backend.
+It was implemented in the homework 2,3, and final one. Some of them were done with the after-class assignments.
+
+For the third part, GUI, it is about the Graphical User Interface. There are the window for connecting with remote storage, the window for personal informations
+in each month, and other windows for creating, showing details or something else.
+It was implemented in homework of the final one.
+
+All the items are derived from a abstract class, named \lstinline|PIMEntity|. Then the collection of the \lstinline|PIMEntity| can be defined.
+The collection needs two functions: storing and interacting with remote. The collection should be about to support the normal operations of \lstinline|Collection|; meanwhile, it should be able to 
+
+
+\end{document}
