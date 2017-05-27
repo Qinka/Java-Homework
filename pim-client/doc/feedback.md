@@ -1,4 +1,4 @@
-Bug
+Feedback
 ===
 
 ## Frequently Asked Question (FAQ)

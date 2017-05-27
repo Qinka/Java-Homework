@@ -42,7 +42,7 @@ public class MainWindows extends JFrame {
     private String own;
     private int __week_delta;
     
-    private GregorianCalendar gc;
+    private GregorianCalendar gcl;
     
     /**
      * Empty event of one mouse clicked.

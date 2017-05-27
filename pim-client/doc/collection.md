@@ -1,12 +1,10 @@
 Collection
 ===
 
-This document is about the operators around the collection.
+The PIM is using file, HTTP backend, and the database as the place where store the datas.
 
-## Save
+For FILE, the default path is `.ignore/data`, and you can use your own one.
 
-To save current datas, you need to type in the command `save`, and the datas will be serialized to json and stored to file `.ignore/data`.
+For HTTP, the backend is named `pim-be`, and that can be found on the [GitHub](https://github.com/Qinka/pim-be).
 
-## Load
-
-To load the datas from the file, you need to type in the command `load`, and the datas will be deserialized from json and load to memory.
+For DATABASE, the database is PostgreSQL, and the initial script of the Database can be found in the backend's repo.
