@@ -18,16 +18,26 @@ import java.util.*;
  * Show the items
  */
 public class ShowItem extends JDialog {
+    /**
+     * The constuctor of ShowItem
+     */
     public ShowItem(PIMEntity _item) {
 	super();
 	item = _item;
 	initComponents();
     }
 
+    /**
+     * The method of the event when ok-button clicked.
+     * @param e AWT event param
+     */
     private void okButtonClicked(AWTEvent e) {
 	this.dispose();
     }	
     
+    /**
+     * the initial method of the dialog.
+     */
     private void initComponents() {
 	dialogPane = new JPanel();
 	contentPanel = new JPanel();
@@ -58,8 +68,6 @@ public class ShowItem extends JDialog {
 						 "[grow]" +
 						 "[grow]" +
 						 "[grow]"));
-
-		
 
 	    //====== context =======
 	    {
