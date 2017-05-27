@@ -42,7 +42,13 @@ in each month, and other windows for creating, showing details or something else
 It was implemented in homework of the final one.
 
 All the items are derived from a abstract class, named \lstinline|PIMEntity|. Then the collection of the \lstinline|PIMEntity| can be defined.
-The collection needs two functions: storing and interacting with remote. The collection should be about to support the normal operations of \lstinline|Collection|; meanwhile, it should be able to 
+The collection needs two functions: storing and interacting with remote. The collection should be about to support the normal operations of \lstinline|Collection|; meanwhile, it should be able to pull or push the datas from or to remote.
+
+\subsection{How does it work?}
+\label{sec:design:hiw}
+
+When design this application, the first question, which should be asked, is how does it work, or say how does it work like.
+Before the main window launching, the connection of remote should be established. So the first window is the ``Connection Window''
 
 
 \end{document}
